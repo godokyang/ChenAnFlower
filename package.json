@@ -1,0 +1,49 @@
+{
+  "name": "ChenAnFlower",
+  "version": "1.0.0",
+  "description": "flower order system",
+  "private": true,
+  "egg": {
+    "declarations": true
+  },
+  "dependencies": {
+    "egg": "^2.15.1",
+    "egg-mysql": "^3.0.0",
+    "egg-scripts": "^2.11.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "cross-env": "^6.0.3",
+    "egg-bin": "^4.14.0",
+    "egg-ci": "^1.11.0",
+    "egg-mock": "^3.21.0",
+    "eslint": "^5.13.0",
+    "eslint-config-egg": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "cross-env EGG_SERVER_ENV=prod egg-scripts start --daemon --title=egg-server-ChenAnFlower",
+    "stop": "egg-scripts stop --title=egg-server-ChenAnFlower",
+    "dev": "egg-bin dev",
+    "debug": "egg-bin debug",
+    "test": "EGG_SERVER_ENV=dev npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "ci": {
+    "version": "10"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "godokyang",
+  "license": "MIT"
+}
