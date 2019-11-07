@@ -21,7 +21,7 @@ module.exports = appInfo => {
   ];
 
   config.verifyAT = {
-    noAccessAPIs: [ '/user/create' ],
+    noAccessAPIs: [ '/user/loginOrRegister' ],
   };
   // add your user config here
   const userConfig = {

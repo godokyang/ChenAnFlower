@@ -3,53 +3,54 @@
 const Service = require('egg').Service;
 
 class UserService extends Service {
-  async create(user_name, password) {
-    const userCount = await this.app.mysql.query(`select count(*) from ChenAnDB_user where user_name = '${user_name}'`);
+  async loginOrRegister(user_name, password) {
+    // 创建和登录一体
+    const userCountQuery = await this.app.mysql.query(`select count(*) from ChenAnDB_user where user_name = '${user_name}'`);
 
-    if (!userCount) {
+    if (!userCountQuery) {
       return {
         status: false,
         message: 'AddAccessFailed',
       };
     }
-
-    if (userCount[0]['count(*)'] === 0) {
+    const userCount = userCountQuery[0]['count(*)'];
+    if (userCount === 0) {
       await this.app.mysql.insert('ChenAnDB_user', {
         user_name,
         password,
       });
     }
-    const user = await this.app.mysql.get('ChenAnDB_user', { user_name });
-    if (!user) {
+    const userQuery = await this.app.mysql.get('ChenAnDB_user', { user_name });
+    if (!userQuery) {
       return {
         status: false,
         message: 'AddAccessFailed',
       };
     }
-    const RowDataPacket = user.RowDataPacket;
-    if (RowDataPacket && RowDataPacket.password !== password) {
+    // sign 中的payload需要是一个纯函数对象
+    const user = Object.assign({}, userQuery);
+    if (user.password !== password) {
       return {
         status: false,
         message: 'AccessIsExsitsWidthWrongPassword',
       };
     }
-
-    const token = await this.ctx.app.generateToken(RowDataPacket);
+    delete user.password;
+    const token = await this.ctx.app.generateToken(user);
     return {
       status: true,
       message: userCount ? 'AccessIsExsits' : 'Created',
       access_token: token,
     };
-    // const createSuccess = result.affectedRows === 1;
-    // return createSuccess;
   }
 
-  async login(username, password) {
+  async getUserInfo(at) {
+    const info = await this.ctx.app.verifyToken(at);
 
-  }
-
-  async remove(username, password) {
-
+    return {
+      status: true,
+      user_info: info,
+    };
   }
 }
 

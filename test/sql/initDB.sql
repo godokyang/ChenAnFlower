@@ -5,7 +5,7 @@
 DROP DATABASE IF EXISTS ChenAnDB;
 
 -- 创建数据库 默认字符集utf8 默认数据库校对规则utf8_bin（区分大小写校对）
-CREATE DATABASE ChenAnDB DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+CREATE DATABASE ChenAnDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE ChenAnDB;
 
@@ -24,15 +24,15 @@ CREATE TABLE ChenAnDB_goods
   -- 产品图片，数组 用分号分割
   images MEDIUMTEXT NULL,
   -- 产品分类 category表外键
-  category_id VARCHAR(80) NOT NULL,
+  category_id INT NOT NULL DEFAULT 0,
   -- 数据抓取时间
-  catch_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  catch_time BIGINT NOT NULL DEFAULT 0,
   -- 原价
-  owner_price FLOAT NOT NULL,
+  owner_price FLOAT NOT NULL DEFAULT 0,
   -- 售价
-  sale_price FLOAT NOT NULL,
+  sale_price FLOAT NOT NULL DEFAULT 0,
   -- 代理商价格
-  agent_price FLOAT NOT NULL,
+  agent_price FLOAT NOT NULL DEFAULT 0,
   -- 置顶等级，产品排序
   top_level TINYINT(10) DEFAULT 0,
   -- 显示等级，全显示：2； 仅root可见：0； 仅代理商可见：1；
@@ -40,7 +40,7 @@ CREATE TABLE ChenAnDB_goods
   -- 抓取时获取的产品ID，用以标识爬虫结束匹配
   owner_goods_id VARCHAR(80) NOT NULL,
   -- 抓取之前的原始数据中更新的时间
-  owner_server_time TIMESTAMP NOT NULL,
+  owner_server_time BIGINT NOT NULL DEFAULT 0,
   -- 跳转到原始数据的产品链接
   out_jump_link TEXT NULL,
   -- 原数据中所属花农的id，花农表外键
@@ -55,8 +55,8 @@ CREATE TABLE ChenAnDB_category
   -- 产品编号，UUID，产品唯一标识，主键
   id VARCHAR(50) NOT NULL,
   category_name VARCHAR(50) NOT NULL,
-  create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  update_time TIMESTAMP NULL,
+  create_time BIGINT NOT NULL DEFAULT 0,
+  update_time BIGINT NULL,
   PRIMARY KEY(`id`)
 ) ENGINE = InnoDB;
 
@@ -84,13 +84,13 @@ CREATE TABLE ChenAnDB_owner_shop
 )ENGINE = InnoDB;
 
 -- 订单信息表
-DROP TABLE IF EXISTS ChenAnDB_orde_info;
-CREATE TABLE ChenAnDB_orde_info
+DROP TABLE IF EXISTS ChenAnDB_order_info;
+CREATE TABLE ChenAnDB_order_info
 (
   -- UUID 主键
   order_id VARCHAR(50) NOT NULL,
   -- 所属顾客
-  customer_id BIGINT NOT NULL,
+  customer_id BIGINT NOT NULL DEFAULT 0,
   -- 所属店铺 外键
   shop_id VARCHAR(50) NOT NULL,
   -- 所属代理商
@@ -104,7 +104,7 @@ CREATE TABLE ChenAnDB_orde_info
   -- 应付金额
   payment_total INT NOT NULL,
   -- 创建时间
-  create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  create_time BIGINT NOT NULL DEFAULT 0,
   -- 支付方式
   payment_way INT NULL,
   payment_time VARCHAR(50) NULL,
@@ -113,8 +113,8 @@ CREATE TABLE ChenAnDB_orde_info
 )ENGINE = InnoDB;
 
 -- 订单商品信息表
-DROP TABLE IF EXISTS ChenAnDB_orde_goods;
-CREATE TABLE ChenAnDB_orde_goods
+DROP TABLE IF EXISTS ChenAnDB_order_goods;
+CREATE TABLE ChenAnDB_order_goods
 (
   -- UUID 主键
   order_id VARCHAR(50) NOT NULL,
@@ -178,7 +178,7 @@ CREATE TABLE ChenAnDB_address
   detail VARCHAR(255) NOT NULL,
   contact VARCHAR(20) NOT NULL,
   receiver VARCHAR(50) NOT NULL,
-  customer_id BIGINT NOT NULL,
+  customer_id BIGINT NOT NULL DEFAULT 0,
   address_id VARCHAR(50) NOT NULL,
   PRIMARY KEY(`address_id`)
 ) ENGINE = InnoDB;
@@ -201,8 +201,8 @@ CREATE TABLE ChenAnDB_order_logistics
   order_id VARCHAR(50) NOT NULL,
   logistics_company_id VARCHAR(80) NULL,
   logistics_id VARCHAR(80) NOT NULL,
-  delivery_time TIMESTAMP NULL,
-  arrival_time TIMESTAMP NULL,
+  delivery_time BIGINT NULL,
+  arrival_time BIGINT NULL,
   PRIMARY KEY(`logistics_id`)
 ) ENGINE = InnoDB;
 
@@ -223,14 +223,14 @@ CREATE TABLE ChenAnDB_order_goods_comments
 (
   comment_id VARCHAR(80) NOT NULL,
   sku INT NOT NULL,
-  customer_id BIGINT NOT NULL,
+  customer_id BIGINT NOT NULL DEFAULT 0,
   nick_name VARCHAR(50) NULL,
   -- 点赞数
   liked INT DEFAULT 1,
   comment TEXT NULL,
   -- 评分
   star TINYINT(5) DEFAULT 1,
-  create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  create_time BIGINT NOT NULL DEFAULT 0,
   image_url TEXT NULL,
   -- 0：仅root可见，1：卖家可见，2：所有人可见
   public_level TINYINT(10) DEFAULT 0,
@@ -249,7 +249,7 @@ CREATE TABLE ChenAnDB_user
   email VARCHAR(100) NULL,
   head_image TEXT NULL,
   password VARCHAR(80) NOT NULL,
-  create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  create_time BIGINT NOT NULL DEFAULT 0,
   union_id VARCHAR(50) NULL,
   customer_id BIGINT AUTO_INCREMENT,
   -- (10: 正常状态，0：失效状态)
@@ -263,7 +263,7 @@ CREATE TABLE ChenAnDB_user
 DROP TABLE IF EXISTS ChenAnDB_user_weixin;
 CREATE TABLE ChenAnDB_user_weixin
 (
-  customer_id BIGINT NOT NULL,
+  customer_id BIGINT NOT NULL DEFAULT 0,
   -- (10: 正常状态，0：失效状态)
   union_id VARCHAR(50) NOT NULL,
   PRIMARY KEY(`union_id`)
