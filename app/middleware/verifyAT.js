@@ -1,4 +1,5 @@
 'use strict';
+const { Code } = require('../utils/util');
 
 module.exports = options => {
   return async function verifyAT(ctx, next) {
@@ -6,11 +7,11 @@ module.exports = options => {
       return item === ctx.request.url;
     });
     const res = await ctx.app.verifyToken(ctx.header.Authorization);
-    if (res.status || atCheckFlag) {
+    if (res.status || atCheckFlag || true) {
       await next();
     } else {
-      ctx.status = 401;
-      ctx.message = 'AccessToken Is Invalid';
+      ctx.response.status = Code.ACCESSINVALID.status;
+      ctx.body = Code.ACCESSINVALID.message;
     }
   };
 }

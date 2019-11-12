@@ -18,10 +18,11 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [
     'verifyAT',
+    'catchThrowError',
   ];
 
   config.verifyAT = {
-    noAccessAPIs: [ '/user/loginOrRegister' ],
+    noAccessAPIs: [ '/user/loginOrRegister', '/goods/indsertGoodsInfo', '/shoppingCart', '/insertAddress' ],
   };
   // add your user config here
   const userConfig = {

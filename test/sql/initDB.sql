@@ -169,12 +169,7 @@ VALUES
 DROP TABLE IF EXISTS ChenAnDB_address;
 CREATE TABLE ChenAnDB_address
 (
-  province_id INT NOT NULL,
-  province_name VARCHAR(20) NOT NULL,
-  city_id INT NOT NULL,
-  city_name VARCHAR(20) NOT NULL,
-  county_id INT NOT NULL,
-  county_name VARCHAR(20) NOT NULL,
+  ADD_ID VARCHAR(80) NOT NULL,
   detail VARCHAR(255) NOT NULL,
   contact VARCHAR(20) NOT NULL,
   receiver VARCHAR(50) NOT NULL,
