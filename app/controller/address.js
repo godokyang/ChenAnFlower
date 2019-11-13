@@ -26,9 +26,9 @@ class AddressController extends Controller {
     ctx.body = result;
   }
 
-  async deteleAddress() {
+  async deleteAddress() {
     const { ctx } = this;
-    const result = await ctx.service.address.updateAddress('088eb780-045a-11ea-a4ce-5742e1169183');
+    const result = await ctx.service.address.deleteAddress('088eb780-045a-11ea-a4ce-5742e1169183');
     ctx.body = result;
   }
 }

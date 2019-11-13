@@ -1,7 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
-
+const path = require('path');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -21,8 +21,13 @@ module.exports = appInfo => {
     'catchThrowError',
   ];
 
+  config.static = {
+    prefix: '/public/',
+    dir: path.join(appInfo.baseDir, '/app/public/'),
+  };
+
   config.verifyAT = {
-    noAccessAPIs: [ '/user/loginOrRegister', '/goods/indsertGoodsInfo', '/shoppingCart', '/insertAddress' ],
+    noAccessAPIs: [ '/user/loginOrRegister' ],
   };
   // add your user config here
   const userConfig = {

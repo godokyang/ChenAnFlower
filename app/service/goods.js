@@ -4,8 +4,8 @@ const Service = require('egg').Service;
 const { Code } = require('../utils/util');
 
 class GoodsService extends Service {
-  async getGoods(lastId = 0, pageSize = 10) {
-    const goodsQueryData = await this.app.mysql.query(`SELECT * FROM ChenAnDB_goods WHERE sku > ${lastId} LIMIT ${pageSize};`);
+  async getGoods(last_id = 0, page_size = 10) {
+    const goodsQueryData = await this.app.mysql.query(`SELECT * FROM ChenAnDB_goods WHERE sku > ${last_id} LIMIT ${page_size};`);
 
     return Object.assign({}, Code.SUCCESS, {
       data: { goods: goodsQueryData },

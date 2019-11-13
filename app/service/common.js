@@ -1,7 +1,6 @@
 'use strict';
 
 const Service = require('egg').Service;
-const { Code } = require('../utils/util');
 
 class CommonService extends Service {
   async getGoodsBySkus(arr) {
@@ -31,7 +30,7 @@ class CommonService extends Service {
         where: {
           sku: iterator.sku,
         },
-        columns: [ 'goods_name', 'pro_desc', 'images', 'sale_price', 'agent_price', 'sku', 'owner_price' ],
+        columns: [ 'goods_name', 'pro_desc', 'images', 'sale_price', 'agent_price', 'sku', 'owner_price', 'top_level', 'show_level', 'owner_shop_id' ],
       });
       if (result.length === 0) {
         failedSkus.push(iterator.sku);

@@ -91,8 +91,6 @@ CREATE TABLE ChenAnDB_order_info
   order_id VARCHAR(50) NOT NULL,
   -- 所属顾客
   customer_id BIGINT NOT NULL DEFAULT 0,
-  -- 所属店铺 外键
-  shop_id VARCHAR(50) NOT NULL,
   -- 所属代理商
   agent_id INT NULL,
   -- 地址id
@@ -116,6 +114,7 @@ CREATE TABLE ChenAnDB_order_info
 DROP TABLE IF EXISTS ChenAnDB_order_goods;
 CREATE TABLE ChenAnDB_order_goods
 (
+  goods_index INT AUTO_INCREMENT,
   -- UUID 主键
   order_id VARCHAR(50) NOT NULL,
   -- 产品
@@ -127,7 +126,8 @@ CREATE TABLE ChenAnDB_order_goods
   -- 此订单中该项产品下单总额
   goods_price INT NOT NULL,
   -- 商品所属shop_id
-  shop_id VARCHAR(50) NOT NULL
+  shop_id VARCHAR(50) NOT NULL,
+  PRIMARY KEY(`goods_index`)
 ) ENGINE = InnoDB;
 
 -- 支付方式映射
@@ -141,6 +141,7 @@ CREATE TABLE ChenAnDB_payment_way_mapping
 INSERT INTO ChenAnDB_payment_way_mapping
   (payment_way_id, payment_way_desc)
 VALUES
+  (900,'人工收款'),
   (1000, '支付宝'),
   (1001, '微信'),
   (1002, '银行卡');

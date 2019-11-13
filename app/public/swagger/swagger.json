@@ -1,0 +1,518 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "ChenAnFlower的API目录",
+    "version": "1.0.0",
+    "title": "ChenAnFlower"
+  },
+  "host": "localhost:7001",
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "user",
+      "description": "用户信息相关API"
+    },
+    {
+      "name": "order",
+      "description": "Order相关的API"
+    },
+    {
+      "name": "user1",
+      "description": "Operations about user",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "用户登录/注册二合一接口",
+        "description": "用户登录/注册二合一接口",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_name": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "获取用户信息",
+        "description": "获取用户信息",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户customerId获取信息",
+            "required": true,
+            "type": "BIGINT"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/address": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "新建地址",
+        "description": "新建地址",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ADD_ID": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "contact": {
+                  "type": "string"
+                },
+                "receiver": {
+                  "type": "string"
+                },
+                "customer_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/address/{id}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "修改地址",
+        "description": "修改地址",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ADD_ID": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "contact": {
+                  "type": "string"
+                },
+                "receiver": {
+                  "type": "string"
+                },
+                "customer_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "删除地址",
+        "description": "删除地址",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户address_id删除地址",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/goods": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "获取产品信息",
+        "description": "获取产品信息",
+        "parameters": [
+          {
+            "name": "last_id",
+            "in": "path",
+            "description": "最后一个产品的id",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "page_size",
+            "in": "path",
+            "description": "分页数量",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "修改产品信息",
+        "description": "修改产品信息",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "product info",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sku": {
+                  "type": "number"
+                },
+                "show_level": {
+                  "type": "number"
+                },
+                "top_level": {
+                  "type": "number"
+                },
+                "agent_price": {
+                  "type": "number"
+                },
+                "sale_price": {
+                  "type": "number"
+                },
+                "owner_price": {
+                  "type": "number"
+                },
+                "pro_desc": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/cart/item": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "根据sku获取产品信息",
+        "description": "根据sku获取产品信息",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "product info",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "sku": {
+                    "type": "number"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/order": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "confrimOrder",
+        "description": "confrimOrder",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "product info",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "sku": {
+                    "type": "number"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "order"
+        ],
+        "summary": "提交订单",
+        "description": "提交订单",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "订单信息",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "owner_total": {
+                  "type": "number"
+                },
+                "agent_total": {
+                  "type": "number"
+                },
+                "sale_total": {
+                  "type": "number"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "goods_name": {
+                        "type": "string"
+                      },
+                      "pro_desc": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "string"
+                      },
+                      "sale_price": {
+                        "type": "string"
+                      },
+                      "agent_price": {
+                        "type": "string"
+                      },
+                      "sku": {
+                        "type": "string"
+                      },
+                      "top_level": {
+                        "type": "string"
+                      },
+                      "show_level": {
+                        "type": "string"
+                      },
+                      "owner_shop_id": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "address": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "contact": {
+                      "type": "string"
+                    },
+                    "receiver": {
+                      "type": "string"
+                    },
+                    "customer_id": {
+                      "type": "string"
+                    },
+                    "address_id": {
+                      "type": "string"
+                    },
+                    "ADD_ID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/order/list": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "获取用户订单",
+        "description": "获取用户订单",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/order/{id}/goods": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "获取订单产品列表",
+        "description": "获取订单产品列表",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "根据OrderId获取信息",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
