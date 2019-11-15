@@ -11,15 +11,7 @@ class GoodsController extends Controller {
 
   async insertGoodsInfo() {
     const { ctx } = this;
-    const result = await ctx.service.goods.insertGoodsInfo({
-      pro_desc: '测试',
-      owner_price: 100,
-      sale_price: 100,
-      agent_price: 100,
-      top_level: 0,
-      show_level: 0,
-      sku: 1000001,
-    });
+    const result = await ctx.service.goods.insertGoodsInfo();
     ctx.body = result;
   }
 }

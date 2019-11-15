@@ -4,8 +4,9 @@ const Service = require('egg').Service;
 const { Code } = require('../utils/util');
 
 class UserService extends Service {
-  async loginOrRegister(user_name, password) {
+  async loginOrRegister() {
     // 创建和登录一体
+    const { user_name, password } = this.ctx.request.body;
     const userCountQuery = await this.app.mysql.query(`select count(*) from ChenAnDB_user where user_name = '${user_name}'`);
 
     const userCount = userCountQuery[0]['count(*)'];
@@ -33,8 +34,10 @@ class UserService extends Service {
     });
   }
 
-  async getUserInfo(at) {
-    const info = await this.ctx.app.verifyToken(at);
+  async getUserInfo() {
+    const { ctx } = this;
+    const { authorization } = ctx.request.header;
+    const info = await this.ctx.app.verifyToken(authorization);
 
     return Object.assign({}, Code.SUCCESS, {
       data: { user_info: info },

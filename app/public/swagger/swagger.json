@@ -6,7 +6,7 @@
     "title": "ChenAnFlower"
   },
   "host": "localhost:7001",
-  "basePath": "/v2",
+  "basePath": "/v1",
   "tags": [
     {
       "name": "user",
@@ -15,19 +15,11 @@
     {
       "name": "order",
       "description": "Order相关的API"
-    },
-    {
-      "name": "user1",
-      "description": "Operations about user",
-      "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
-      }
     }
   ],
   "schemes": [
-    "https",
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
     "/user": {
@@ -38,7 +30,7 @@
         "summary": "用户登录/注册二合一接口",
         "description": "用户登录/注册二合一接口",
         "consumes": [
-          "application/json"
+          "application/json",
         ],
         "parameters": [
           {
@@ -62,9 +54,7 @@
             "description": "Created"
           }
         }
-      }
-    },
-    "/user/{id}": {
+      },
       "get": {
         "tags": [
           "user"
@@ -73,11 +63,11 @@
         "description": "获取用户信息",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "用户customerId获取信息",
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
             "required": true,
-            "type": "BIGINT"
+            "type": "string"
           }
         ],
         "produces": [
@@ -125,6 +115,13 @@
                 }
               }
             }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -142,6 +139,20 @@
         "summary": "修改地址",
         "description": "修改地址",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "address_id",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "user",
@@ -185,6 +196,13 @@
         "description": "删除地址",
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "id",
             "in": "path",
             "description": "用户address_id删除地址",
@@ -212,17 +230,24 @@
         "description": "获取产品信息",
         "parameters": [
           {
-            "name": "last_id",
-            "in": "path",
-            "description": "最后一个产品的id",
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "last_id",
+            "in": "query",
+            "description": "最后一个产品的id",
+            "required": false,
             "type": "number"
           },
           {
             "name": "page_size",
-            "in": "path",
+            "in": "query",
             "description": "分页数量",
-            "required": true,
+            "required": false,
             "type": "number"
           }
         ],
@@ -243,6 +268,13 @@
         "summary": "修改产品信息",
         "description": "修改产品信息",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "product info",
@@ -286,13 +318,20 @@
       }
     },
     "/cart/item": {
-      "get": {
+      "put": {
         "tags": [
           "order"
         ],
         "summary": "根据sku获取产品信息",
         "description": "根据sku获取产品信息",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "product info",
@@ -324,13 +363,20 @@
       }
     },
     "/order": {
-      "get": {
+      "put": {
         "tags": [
           "order"
         ],
         "summary": "confrimOrder",
         "description": "confrimOrder",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "product info",
@@ -367,6 +413,13 @@
         "summary": "提交订单",
         "description": "提交订单",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
           {
             "in": "body",
             "name": "订单信息",
@@ -465,6 +518,15 @@
         ],
         "summary": "获取用户订单",
         "description": "获取用户订单",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "produces": [
           "application/xml",
           "application/json"
@@ -476,16 +538,23 @@
         }
       }
     },
-    "/order/{id}/goods": {
+    "/order/{order_id}/goods": {
       "get": {
         "tags": [
-          "user"
+          "order"
         ],
         "summary": "获取订单产品列表",
         "description": "获取订单产品列表",
         "parameters": [
           {
-            "name": "id",
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "order_id",
             "in": "path",
             "description": "根据OrderId获取信息",
             "required": true,
@@ -503,16 +572,5 @@
         }
       }
     }
-  },
-  "securityDefinitions": {
-    "Authorization": {
-      "type": "apiKey",
-      "in": "header",
-      "name": "Authorization"
-    }
-  },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
   }
 }

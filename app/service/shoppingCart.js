@@ -4,13 +4,14 @@ const Service = require('egg').Service;
 const { Code } = require('../utils/util');
 
 class ShoppingCartService extends Service {
-  async getShoppingCartInfo(arr) {
+  async getShoppingCartInfo() {
     /**
      * obj: [
      * {sku: xxx, quantity: xxx}
      * ]
      */
     const { ctx } = this;
+    const arr = ctx.request.body;
     const result = await ctx.service.common.getGoodsBySkus(arr);
 
     if (result.status) {
