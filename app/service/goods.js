@@ -10,7 +10,7 @@ class GoodsService extends Service {
     const goodsQueryData = await this.app.mysql.query(`SELECT * FROM ChenAnDB_goods WHERE sku > ${last_id} LIMIT ${page_size};`);
 
     return Object.assign({}, Code.SUCCESS, {
-      data: { goods: goodsQueryData },
+      data: { goods: goodsQueryData }
     });
   }
 
@@ -30,14 +30,14 @@ class GoodsService extends Service {
     if (!sku) {
       return Object.assign({}, Code.ERROR, {
         message: 'Sku Is Not Define',
-        error_code: 600,
+        error_code: 600
       });
     }
     const insertObj = {
-      pro_desc, owner_price, sale_price, agent_price, top_level, show_level, sku,
+      pro_desc, owner_price, sale_price, agent_price, top_level, show_level, sku
     };
     const result = await this.app.mysql.update('ChenAnDB_goods', insertObj, {
-      where: { sku },
+      where: { sku }
     });
 
     if (result.affectedRows === 1) {
@@ -45,7 +45,7 @@ class GoodsService extends Service {
     }
     return Object.assign({}, Code.ERROR, {
       message: 'Insert Failed',
-      error_code: 603,
+      error_code: 603
     });
   }
 }

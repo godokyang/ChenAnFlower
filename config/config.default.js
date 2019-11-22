@@ -19,16 +19,26 @@ module.exports = appInfo => {
   config.middleware = [
     'verifyAT',
     'catchThrowError',
+    'checkReponse',
+    'locals'
   ];
 
   config.static = {
     prefix: '/public/',
-    dir: path.join(appInfo.baseDir, '/app/public/'),
+    dir: path.join(appInfo.baseDir, 'app/public/')
+  };
+
+  config.reactssr = {
+    layout: path.join(appInfo.baseDir, 'app/web/view/layout.html'),
+    renderOptions: {
+      basedir: path.join(appInfo.baseDir, 'app/view')
+    }
   };
 
   config.verifyAT = {
-    noAccessAPIs: [ '/v1/user' ],
+    noAccessAPIs: [ '/v1/user', '/web', '/public' ]
   };
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
@@ -36,6 +46,6 @@ module.exports = appInfo => {
 
   return {
     ...config,
-    ...userConfig,
+    ...userConfig
   };
 };

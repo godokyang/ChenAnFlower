@@ -34,7 +34,7 @@ const uuid = require('uuid');
 	}
 }
  */
-function verifyOrder(params) {
+const verifyOrder = params => {
   // TODO order check
   console.log(params);
   return false;
@@ -57,7 +57,7 @@ class OrderService extends Service {
       // sku or quantity is not define in paramters
       return Object.assign({}, Code.ERROR, {
         message: 'ShoppingCart Paramters Not Right',
-        error_code: 600,
+        error_code: 600
       });
     }
 
@@ -68,7 +68,7 @@ class OrderService extends Service {
     }
 
     const addressRes = await ctx.app.mysql.select('ChenAnDB_address', {
-      customer_id: userRes.customer_id,
+      customer_id: userRes.customer_id
     });
 
     const result = await ctx.service.common.getGoodsBySkus(arr);
@@ -77,20 +77,20 @@ class OrderService extends Service {
         result.data.address = addressRes[0];
       }
       return Object.assign({}, Code.SUCCESS, {
-        data: { order_info: result.data },
+        data: { order_info: result.data }
       });
     }
 
     if (result.errorData) {
       return Object.assign({}, Code.ERROR, {
         message: `Not All Sku Effective: ${result.errorData}`,
-        error_code: 601,
+        error_code: 601
       });
     }
 
     return Object.assign({}, Code.ERROR, {
       message: 'Sku Or Quantity Is Not Define In The Paramters',
-      error_code: 600,
+      error_code: 600
     });
   }
 
@@ -118,7 +118,7 @@ class OrderService extends Service {
         payment_total: total,
         payment_way: 900,
         order_status: 10100,
-        create_time: new Date().getTime(),
+        create_time: new Date().getTime()
       }); // 第一步操作
       for (const item of obj.items) {
         await conn.insert('ChenAnDB_order_goods', {
@@ -127,7 +127,7 @@ class OrderService extends Service {
           goods_name: item.goods_name,
           goods_count: item.quantity,
           shop_id: item.owner_shop_id,
-          goods_price: item.sale_price,
+          goods_price: item.sale_price
         });
       }
       // 第二步操作
@@ -149,13 +149,13 @@ class OrderService extends Service {
     }
 
     const result = await ctx.app.mysql.select('ChenAnDB_order_info', {
-      customer_id: userRes.customer_id,
+      customer_id: userRes.customer_id
     });
 
     return Object.assign({}, Code.SUCCESS, {
       data: {
-        list: result,
-      },
+        list: result
+      }
     });
   }
 
@@ -165,18 +165,18 @@ class OrderService extends Service {
     if (!order_id) {
       return Object.assign({}, Code.ERROR, {
         message: 'wrong paramters',
-        error_code: 600,
+        error_code: 600
       });
     }
 
     const result = await ctx.app.mysql.select('ChenAnDB_order_goods', {
-      where: { order_id },
+      where: { order_id }
     });
 
     return Object.assign({}, Code.SUCCESS, {
       data: {
-        list: result,
-      },
+        list: result
+      }
     });
   }
 }

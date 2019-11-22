@@ -13,7 +13,7 @@ class UserService extends Service {
     if (userCount === 0) {
       await this.app.mysql.insert('ChenAnDB_user', {
         user_name,
-        password,
+        password
       });
     }
     const userQuery = await this.app.mysql.get('ChenAnDB_user', { user_name });
@@ -24,13 +24,13 @@ class UserService extends Service {
       return Object.assign({}, Code.ERROR, {
         message: 'AccessIsExsitsWidthWrongPassword',
         error_code: 602,
-        data: null,
+        data: null
       });
     }
     delete user.password;
     const token = await this.ctx.app.generateToken(user);
     return Object.assign({}, Code.SUCCESS, {
-      data: { access_token: token },
+      data: { access_token: token }
     });
   }
 
@@ -40,7 +40,7 @@ class UserService extends Service {
     const info = await this.ctx.app.verifyToken(authorization);
 
     return Object.assign({}, Code.SUCCESS, {
-      data: { user_info: info },
+      data: { user_info: info }
     });
   }
 }

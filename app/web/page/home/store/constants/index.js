@@ -1,0 +1,1 @@
+export const LOAD_GOODS = 'LOAD_GOODS' // 加载产品

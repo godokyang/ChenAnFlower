@@ -10,4 +10,8 @@ module.exports = {
     enable: true,
     package: 'egg-mysql',
   },
+  reactssr: {
+    enable: true,
+    package: 'egg-view-react-ssr',
+  },
 };

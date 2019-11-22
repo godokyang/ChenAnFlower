@@ -31,7 +31,7 @@ class AddressService extends Service {
       contact,
       receiver,
       customer_id,
-      address_id: uuid.v1(),
+      address_id: uuid.v1()
     };
     // const insertData = Object.assign(defaultData, obj);
     const noDefineList = [];
@@ -48,17 +48,17 @@ class AddressService extends Service {
       ctx.app.createResponse(Code.ERROR.status, 600, `Following Data Has Not Define: ${noDefineList.toString()}`);
       return Object.assign({}, Code.ERROR, {
         message: `Following Data Has Not Define: ${noDefineList.toString()}`,
-        error_code: 600,
+        error_code: 600
       });
     }
     const countRes = await this.app.mysql.select('ChenAnDB_address', {
-      where: { customer_id },
+      where: { customer_id }
     });
 
     if (countRes && countRes.length > 0) {
       return Object.assign({}, Code.ERROR, {
         message: 'Address Count Has Up To Limit',
-        error_code: 605,
+        error_code: 605
       });
     }
     const result = await this.app.mysql.insert('ChenAnDB_address', insertData);
@@ -67,7 +67,7 @@ class AddressService extends Service {
     }
     return Object.assign({}, Code.ERROR, {
       message: 'Insert Failed',
-      error_code: 603,
+      error_code: 603
     });
   }
 
@@ -80,25 +80,25 @@ class AddressService extends Service {
     if (!address_id) {
       return Object.assign({}, Code.ERROR, {
         message: 'No Address_id Selected',
-        error_code: 600,
+        error_code: 600
       });
     }
 
     const countRes = await this.app.mysql.select('ChenAnDB_address', {
-      where: { address_id, customer_id },
+      where: { address_id, customer_id }
     });
 
     if (countRes.length === 0) {
       return Object.assign({}, Code.ERROR, {
         message: 'No Address_id In Database',
-        error_code: 604,
+        error_code: 604
       });
     }
 
     const result = await this.app.mysql.update('ChenAnDB_address', {
-      ADD_ID, detail, contact, receiver,
+      ADD_ID, detail, contact, receiver
     }, {
-      where: { address_id },
+      where: { address_id }
     });
 
     if (result.affectedRows === 1) {
@@ -106,7 +106,7 @@ class AddressService extends Service {
     }
     return Object.assign({}, Code.ERROR, {
       message: 'Insert Failed',
-      error_code: 603,
+      error_code: 603
     });
   }
 
@@ -117,13 +117,13 @@ class AddressService extends Service {
     if (!address_id) {
       return Object.assign({}, Code.ERROR, {
         message: 'address_id Is Not Define',
-        error_code: 600,
+        error_code: 600
       });
     }
 
     const result = await app.mysql.delete('ChenAnDB_address', {
       address_id,
-      customer_id,
+      customer_id
     });
 
     if (result.affectedRows === 1) {
@@ -133,7 +133,7 @@ class AddressService extends Service {
     return Object.assign({}, Code.ERROR, {
       message: 'Insert Failed',
       error_code: 603,
-      error: result,
+      error: result
     });
   }
 }

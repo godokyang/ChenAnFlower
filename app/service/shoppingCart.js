@@ -16,20 +16,20 @@ class ShoppingCartService extends Service {
 
     if (result.status) {
       return Object.assign({}, Code.SUCCESS, {
-        data: { pro_infos: result.data },
+        data: { pro_infos: result.data }
       });
     }
 
     if (result.errorData) {
       return Object.assign({}, Code.ERROR, {
         message: `Not All Sku Effective: ${result.errorData}`,
-        error_code: 601,
+        error_code: 601
       });
     }
 
     return Object.assign({}, Code.ERROR, {
       message: 'Sku Or Quantity Is Not Define In The Paramters',
-      error_code: 600,
+      error_code: 600
     });
   }
 }

@@ -21,16 +21,16 @@ class CommonService extends Service {
       owner_total: 0,
       agent_total: 0,
       sale_total: 0,
-      items: [],
+      items: []
     };
 
     const failedSkus = [];
     for (const iterator of arr) {
       const result = await this.app.mysql.select('ChenAnDB_goods', {
         where: {
-          sku: iterator.sku,
+          sku: iterator.sku
         },
-        columns: [ 'goods_name', 'pro_desc', 'images', 'sale_price', 'agent_price', 'sku', 'owner_price', 'top_level', 'show_level', 'owner_shop_id' ],
+        columns: [ 'goods_name', 'pro_desc', 'images', 'sale_price', 'agent_price', 'sku', 'owner_price', 'top_level', 'show_level', 'owner_shop_id' ]
       });
       if (result.length === 0) {
         failedSkus.push(iterator.sku);
