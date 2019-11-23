@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter, StaticRouter } from 'react-router-dom'
 import { matchRoutes } from 'react-router-config'
+import { log } from 'util'
 
 class App {
 

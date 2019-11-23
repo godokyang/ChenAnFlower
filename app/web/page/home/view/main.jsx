@@ -23,14 +23,15 @@ class Main extends Component {
     return <Rootlayout {...this.props}>
       <Switch>
         <Route path="/web/home" component={Home} />
+        <Route path="/web/client" component={Home} />
         <Route path="/web/manage" component={Manage} />
       </Switch>
     </Rootlayout>
   }
 }
 
-const mapStateToProps = state => {
-  return state
-}; 
+// const mapStateToProps = state => {
+//   return state
+// }; 
 
-export default connect(mapStateToProps)(Main);
+export default Main;

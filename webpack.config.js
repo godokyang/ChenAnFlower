@@ -2,6 +2,7 @@
 const path = require('path');
 const resolve = filepath => path.resolve(__dirname, filepath);
 module.exports = {
+  // target: 'web',
   entry: {
     home: 'app/web/page/home/index.js'
   },

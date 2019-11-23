@@ -1,0 +1,12 @@
+.sub-title {
+  color: #888;
+  font-size: 14px;
+  padding: 15px 0 9px 15px;
+}
+
+.am-grid .am-flexbox .am-flexbox-item .am-grid-item-content {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}

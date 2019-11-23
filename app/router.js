@@ -7,7 +7,7 @@ module.exports = app => {
   const { router, controller } = app;
 
   // web
-  // router.redirect('/', '/web', 302);
+  router.redirect('/', '/web/home', 302);
   router.get('/web/home', controller.web.home.server);
   router.get('/web/client', controller.web.home.client);
 

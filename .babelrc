@@ -64,6 +64,7 @@
       "plugins": [
         "react-hot-loader/babel",
         "transform-object-assign",
+        "transform-class-properties",
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         [

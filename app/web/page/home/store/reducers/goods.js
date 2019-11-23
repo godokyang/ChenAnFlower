@@ -1,14 +1,23 @@
 import * as actionTypes from '../constants';
 
-const goodsHandle = (state, action) => {
-  console.log('=================statestate===================');
-  console.log(state, action);
-  console.log('====================================');
+const goodsHandle = (state = {
+  goodsList: [],
+  bigPics: []
+}, action) => {
   const newState = Object.assign({}, state);
-  if (action.type === actionTypes.LOAD_GOODS) {
-    const list = Array.isArray(action.data) ? action.data : [action.data];
-    newState.list = [...newState.list, ...list];
+  switch (action.type) {
+  case actionTypes.LOAD_GOODS:
+    newState.goodsList = [...newState.goodsList, ...Array.isArray(action.data) ? action.data : [action.data]]
+    break
+
+  case actionTypes.SHOW_GOODS_PIC:
+    newState.bigPics = [...Array.isArray(action.data) ? action.data : [action.data]];
+    break;
+    
+  default:
+    break;
   }
+
   return newState;
 }
 

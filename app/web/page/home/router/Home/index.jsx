@@ -11,6 +11,8 @@ import Bed from './Bed';
 import Article from './Article';
 import Setup from './Setup';
 import {loadGoods} from '../../store/actions/goods'
+import {bindActionCreators} from 'redux';
+import {asyncAPI} from '../../store/actions/axiosData'
 
 const BED = 'Bed'
 const SHOPPINGCART = 'ShoppingCart'
@@ -24,7 +26,11 @@ class Home extends Component {
 
   static asyncData(context, route) {
     return request.get('/v1/goods', context.state).then(res => {
-      return res.data.data;
+      return {
+        goodsHandle: {
+          goodsList: res.data.data.goods
+        }
+      };
     });
   }
 
@@ -32,6 +38,20 @@ class Home extends Component {
     this.setState({
       current
     });
+    switch (current) {
+    case BED:
+      this.props.asyncAPI('/api/goods','get',loadGoods);
+      break;
+    case SHOPPINGCART:
+        
+      break;
+    case SETUP:
+        
+      break;
+    
+    default:
+      break;
+    }
   }
 
   render() {
@@ -76,8 +96,14 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return state;
-};
+// const mapStateToProps = (state) => {
+//   return state;
+// };
 
-export default connect(mapStateToProps)(Home);
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     asyncAPI: bindActionCreators(asyncAPI, dispatch)
+//   }
+// };
+
+export default Home;

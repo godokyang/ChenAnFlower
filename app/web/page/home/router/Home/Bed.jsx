@@ -1,37 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
-import request from 'framework/request'
-import {loadGoodsAsync} from '../../store/actions/goods'
+import {loadGoods} from '../../store/actions/goods'
+import {asyncAPI} from '../../store/actions/axiosData'
+import GoodsList from '../../../../component/home/goodsList'
+import RidingLantern from '../../../../component/home/ridingLantern'
 
 class Bed extends Component {
   constructor (props) {
     super(props)
-    console.log('====================================');
-    console.log(this.props);
-    console.log('====================================');
-    if (!this.props.goods) {
-      this.props.loadGoodsAsync();
-    }
+    
+  }
+
+  componentDidMount() {
+    // if (!this.props.goods.value) {
+    //   this.props.asyncAPI('/api/goods','get',loadGoods);
+    // }
   }
   
   
   render() {
-    const list = this.props.goods.value;
+
     return (
       <div>
-        {list.toString()}
+        <GoodsList style={{zIndex: 1}} />
+        <RidingLantern style={{zIndex: 10}} />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return state;
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadGoodsAsync: bindActionCreators(loadGoodsAsync, dispatch)
-  }
-};
-export default connect(mapStateToProps,mapDispatchToProps)(Bed);
+export default Bed;

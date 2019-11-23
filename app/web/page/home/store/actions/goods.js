@@ -1,6 +1,5 @@
 import * as actionTypes from '../constants'
 import { createAction } from 'redux-promise'
-import request from 'framework/request'
 
 const loadGoods = data => {
   return {
@@ -9,6 +8,11 @@ const loadGoods = data => {
   }
 }
 
-const loadGoodsAsync = context => createAction(actionTypes.LOAD_GOODS, request.get('/v1/goods', context.state))
+const showGoodsPic = (data) => {
+  return {
+    type: actionTypes.SHOW_GOODS_PIC,
+    data
+  }
+}
 
-export {loadGoods, loadGoodsAsync}
+export {loadGoods, showGoodsPic}
