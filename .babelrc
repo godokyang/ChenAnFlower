@@ -10,6 +10,7 @@
     "stage-0"
   ],
   "plugins": [
+    "transform-runtime",
     "transform-object-assign",
     "syntax-dynamic-import",
     "transform-object-rest-spread",
@@ -24,6 +25,7 @@
   "env": {
     "development": {
       "plugins": [
+        "transform-runtime",
         "react-hot-loader/babel"
       ]
     },
@@ -41,6 +43,7 @@
         ]
       ],
       "plugins": [
+        "transform-runtime",
         "syntax-dynamic-import",
         "transform-object-rest-spread"
       ]
@@ -65,6 +68,7 @@
         "react-hot-loader/babel",
         "transform-object-assign",
         "transform-class-properties",
+        "transform-runtime",
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         [

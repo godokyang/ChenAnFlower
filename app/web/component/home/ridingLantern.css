@@ -1,5 +1,25 @@
 .lantern-banner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
+  left: 0;
   top: 0;
+  background: rgba(0, 0, 0, 0.8);
   z-index: 1000;
+}
+
+.lantern-banner-cross {
+  position: absolute;
+  right: 10px;
+  top: 30px;
+}
+
+.space-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

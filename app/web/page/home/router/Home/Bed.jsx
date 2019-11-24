@@ -1,8 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux';
-import {loadGoods} from '../../store/actions/goods'
-import {asyncAPI} from '../../store/actions/axiosData'
 import GoodsList from '../../../../component/home/goodsList'
 import RidingLantern from '../../../../component/home/ridingLantern'
 
@@ -22,9 +18,9 @@ class Bed extends Component {
   render() {
 
     return (
-      <div>
+      <div style={{height:'100%', width: '100%'}}>
         <GoodsList style={{zIndex: 1}} />
-        <RidingLantern style={{zIndex: 10}} />
+        <RidingLantern />
       </div>
     )
   }

@@ -21,5 +21,15 @@ module.exports = {
         }
       }
     }
+  },
+  resolve: {
+    // 设置别名
+    alias: {
+      '@web': resolve('app/web'),
+      '@webFramework': resolve('app/web/framework'),
+      '@webComp': resolve('app/web/component'),
+      '@webPage': resolve('app/web/page'),
+      '@webApi': resolve('app/web/api')
+    }
   }
 };

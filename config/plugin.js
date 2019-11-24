@@ -8,10 +8,14 @@ module.exports = {
   // }
   mysql: {
     enable: true,
-    package: 'egg-mysql',
+    package: 'egg-mysql'
   },
   reactssr: {
     enable: true,
-    package: 'egg-view-react-ssr',
+    package: 'egg-view-react-ssr'
   },
+  cors: {
+    enable: true,
+    package: 'egg-cors'
+  }
 };

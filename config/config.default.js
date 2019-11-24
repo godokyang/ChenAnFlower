@@ -39,6 +39,17 @@ module.exports = appInfo => {
     noAccessAPIs: [ '/v1/user', '/web', '/public' ]
   };
 
+  config.security = {
+    csrf: {
+      enable: false
+    },
+    domainWhiteList: [ '*' ]
+  };
+  
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
+  };
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',

@@ -5,10 +5,10 @@
 module.exports = {
   webpack: {
     enable: true,
-    package: 'egg-webpack',
+    package: 'egg-webpack'
   },
   webpackreact: {
     enable: true,
-    package: 'egg-webpack-react',
-  },
+    package: 'egg-webpack-react'
+  }
 };

@@ -1,26 +1,18 @@
 /* eslint-disable func-style */
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { ListView, Grid, Carousel, WingBlank } from 'antd-mobile';
+import { ListView, Grid } from 'antd-mobile';
+import { Select, Button } from 'antd';
+const { Option } = Select;
 import { StickyContainer, Sticky } from 'react-sticky';
-import { Icon } from 'antd';
-import {showGoodsPic} from '../../page/home/store/actions/goods'
+import _lodash from 'lodash'
 import 'antd-mobile/dist/antd-mobile.css';
 import './goodsList.css'
 
-function MyBody(props) {
-  return (
-    <div className="am-list-body my-body">
-      <span style={{ display: 'none' }}>you can custom body wrap element</span>
-      {props.children}
-    </div>
-  );
-}
+import {showBigPics, axiosGoods} from '@webPage/home/store/actions/goods'
 
-const NUM_ROWS = 20;
-let pageIndex = 0;
+const NUM_ROWS = 5;
 
 function genData(pIndex = 0) {
   const dataBlob = {};
@@ -53,35 +45,28 @@ class GoodsList extends React.Component {
       this.rData = genData();
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        isLoading: false
+        isLoading: true
       });
     }, 600);
   }
 
   // If you use redux, the data maybe at props, you need use `componentWillReceiveProps`
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataSource !== this.props.dataSource) {
+    if (_lodash.get(nextProps, 'goodsHandle.goodsList', []) !== _lodash.get(this.props, 'goodsHandle.goodsList', [])) {
+      let newGoodsList = _lodash.get(nextProps, 'goodsHandle.goodsList')
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.dataSource)
+        dataSource: this.state.dataSource.cloneWithRows(newGoodsList)
       });
     }
   }
 
-  onEndReached = (event) => {
+  onEndReached = async (event) => {
     // load new data
     // hasMore: from backend data, indicates whether it is the last page, here is false
-    if (this.state.isLoading && !this.state.hasMore) {
-      return;
-    }
-    console.log('reach end', event);
-    this.setState({ isLoading: true });
-    setTimeout(() => {
-      this.rData = { ...this.rData, ...genData(++pageIndex) };
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        isLoading: false
-      });
-    }, 1000);
+    const lastGoods = _lodash.last(_lodash.get(this.props, 'goodsHandle.goodsList', [{sku: null}])).sku
+    await this.props.axiosGoods({
+      params: {last_id: lastGoods}
+    })
   }
 
   render() {
@@ -97,7 +82,7 @@ class GoodsList extends React.Component {
       />
     );
     
-    const data = this.props.goodsHandle.goodsList
+    const data = _lodash.get(this.props, 'goodsHandle.goodsList', [])
     let index = data.length - 1;
     const row = (rowData, sectionID, rowID) => {
       if (index < 0) {
@@ -117,7 +102,7 @@ class GoodsList extends React.Component {
               padding: '10px',
               borderBottom: '1px solid #F6F6F6'
             }}
-          >{obj.des || '晨安&花'}</div>
+          >{obj.des || `晨安&花${obj.sku}`}</div>
           <div style={{ display: '-webkit-box', display: 'flex', padding: '0', flexDirection: 'column' }}>
             <Grid data={images}
               columnNum={images.length < 4 ? images.length : 4}
@@ -133,35 +118,69 @@ class GoodsList extends React.Component {
 
               )}
               onClick={(el, index) =>{
-                this.props.showGoodsPic([...images])
+                const bigPics = [...images]
+                this.props.showBigPics({
+                  bigPics,
+                  index
+                })
               }}
             />
             <div style={{ lineHeight: 1 }}>
               <div style={{ fontWeight: 'bold', fontSize: '14px', padding: '10px', lineHeight: '20px' }}>{obj.goods_name}</div>
-              <div style={{ marginBottom: '16px', marginLeft: '7px' }}>¥<span style={{ fontSize: '30px', color: '#FF6E27' }}>{obj.sale_price}</span></div>
+              <div style={{ marginBottom: '16px', marginLeft: '7px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>¥<span style={{ fontSize: '30px', color: '#FF6E27' }}>{obj.sale_price}</span></div>
+                <Button 
+                  type="danger" 
+                  shape="circle" 
+                  icon="shopping-cart"
+                  size="large"
+                  activeStyle={false}
+                  onClick={() => {
+                    console.log('====================================');
+                    console.log(obj);
+                    console.log('====================================');
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
       );
     };
     return (
-      <ListView
-        ref={el => this.lv = el}
-        dataSource={this.state.dataSource}
-        renderHeader={() => <span>header</span>}
-        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-          {this.state.isLoading ? 'Loading...' : 'Loaded'}
-        </div>)}
-        renderRow={row}
-        renderSeparator={separator}
-        className="am-list"
-        pageSize={4}
-        useBodyScroll
-        onScroll={() => { console.log('scroll'); }}
-        scrollRenderAheadDistance={500}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={10}
-      />
+      <StickyContainer style={{width: '100%',height:'100%',position: 'absolute',top: 0, left: 0}}>
+        <ListView
+          ref={el => this.lv = el}
+          dataSource={this.state.dataSource}
+          renderHeader={() => 
+            <Sticky style={{background:'white'}}>{({ style }) => {
+              return <div className="sticky-header" style={style}>
+                <h1 style={{padding:0, margin:0}}>晨安&花</h1>
+                <Select defaultValue="lucy" style={{ width: 120 }} onChange={(value) => {
+                  console.log(value);
+                }}>
+                  <Option value="jack">玫瑰</Option>
+                  <Option value="lucy">百合</Option>
+                  <Option value="disabled" disabled>郁金香</Option>
+                  <Option value="Yiminghe">其他</Option>
+                </Select>
+              </div>
+            }}</Sticky>
+          }
+          renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+            {this.state.isLoading ? 'Loading...' : 'Loaded'}
+          </div>)}
+          renderRow={row}
+          renderSeparator={separator}
+          className="am-list"
+          pageSize={4}
+          // useBodyScroll
+          // onScroll={() => { console.log('scroll'); }}
+          scrollRenderAheadDistance={500}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={10}
+        />
+      </StickyContainer>
     );
   }
 }
@@ -172,7 +191,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showGoodsPic: bindActionCreators(showGoodsPic, dispatch)
+    showBigPics: bindActionCreators(showBigPics, dispatch),
+    axiosGoods: bindActionCreators(axiosGoods, dispatch)
   }
 };
 

@@ -10,10 +10,13 @@ const goodsHandle = (state = {
     newState.goodsList = [...newState.goodsList, ...Array.isArray(action.data) ? action.data : [action.data]]
     break
 
-  case actionTypes.SHOW_GOODS_PIC:
-    newState.bigPics = [...Array.isArray(action.data) ? action.data : [action.data]];
+  case actionTypes.SHOW_BIG_PICS:
+    newState.bigPicIndex = action.data.index
+    newState.bigPics = [...Array.isArray(action.data.bigPics) ? action.data.bigPics : [action.data.bigPics]];
     break;
-    
+  case actionTypes.HIDE_BIG_PICS:
+    newState.bigPics = [...[]];
+    break;
   default:
     break;
   }

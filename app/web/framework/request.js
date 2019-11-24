@@ -9,38 +9,49 @@ const SERVICE_DNS = 'http://localhost:7001'
 const AT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmeSI6MTAwLCJ1c2VyX25hbWUiOiJyb290Iiwibmlja19uYW1lIjpudWxsLCJwaG9uZV9udW1iZXIiOm51bGwsImVtYWlsIjpudWxsLCJoZWFkX2ltYWdlIjpudWxsLCJjcmVhdGVfdGltZSI6MCwidW5pb25faWQiOm51bGwsImN1c3RvbWVyX2lkIjoxMDAwMDAwMDAwMSwic3RhdHVzIjoxMCwiaWF0IjoxNTc0MzkyMjEyLCJleHAiOjE1NzQ2NTE0MTJ9.nhgByLo-ZN6Ti7hV6R5cgWO-IdCtRyQrIAHMdZ6J1eE'
 
 export default {
-  post(url, json, state = {}) {
-    const headers = {};
+  post(url, params ={}, state = {}) {
+    params.headers = {};
     if (EASY_ENV_IS_NODE) {
-      headers['x-csrf-token'] = state.csrf;
-      headers.Cookie = `csrfToken=${state.csrf}`;
-      headers.authorization = AT
+      params.headers['x-csrf-token'] = !!state.csrf;
+      params.headers.Cookie = `csrfToken=${state.csrf}`;
     }
-    return axios.post(`${state.origin || SERVICE_DNS}${url}`, json, { headers });
+    if (EASY_ENV_IS_DEV) {
+      params.headers.authorization = AT
+    }
+    return axios.post(`${state.origin || SERVICE_DNS}${url}`, params);
   },
-  get(url, state = {}) {
-    const headers = {};
-    if (EASY_ENV_IS_NODE) {
-      headers.authorization = AT
+  get(url, params ={}, state = {}) {
+    params.headers = {}
+    if (EASY_ENV_IS_NODE ) {
+      params.headers['x-csrf-token'] = state.csrf || false;
+      params.headers.Cookie = `csrfToken=${state.csrf}`;
     }
-    return axios.get(`${state.origin || SERVICE_DNS}${url}`, { headers });
+    
+    if (EASY_ENV_IS_DEV) {
+      params.headers.authorization = AT
+    }
+    return axios.get(`${state.origin || SERVICE_DNS}${url}`, params);
   },
-  put(url, json, state = {}) {
-    const headers = {};
+  put(url, params ={}, state = {}) {
+    params.headers = {};
     if (EASY_ENV_IS_NODE) {
-      headers['x-csrf-token'] = state.csrf;
-      headers.Cookie = `csrfToken=${state.csrf}`;
-      headers.authorization = AT
+      params.headers['x-csrf-token'] = !!state.csrf;
+      params.headers.Cookie = `csrfToken=${state.csrf}`;
     }
-    return axios.put(`${state.origin || SERVICE_DNS}${url}`, json, { headers });
+    if (EASY_ENV_IS_DEV) {
+      params.headers.authorization = AT
+    }
+    return axios.put(`${state.origin || SERVICE_DNS}${url}`, params);
   },
-  delete(url, json, state = {}) {
-    const headers = {};
+  delete(url, params ={}, state = {}) {
+    params.headers = {};
     if (EASY_ENV_IS_NODE) {
-      headers['x-csrf-token'] = state.csrf;
-      headers.Cookie = `csrfToken=${state.csrf}`;
-      headers.authorization = AT
+      params.headers['x-csrf-token'] = !!state.csrf;
+      params.headers.Cookie = `csrfToken=${state.csrf}`;
     }
-    return axios.delete(`${state.origin || SERVICE_DNS}${url}`, json, { headers });
+    if (EASY_ENV_IS_DEV) {
+      params.headers.authorization = AT
+    }
+    return axios.delete(`${state.origin || SERVICE_DNS}${url}`, params);
   }
 };

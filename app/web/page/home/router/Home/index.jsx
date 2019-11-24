@@ -3,16 +3,13 @@ import { Route, Link, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import request from 'framework/request'
 
-import {Icon} from 'antd';
+import { Icon } from 'antd';
 import { TabBar } from 'antd-mobile';
 import 'antd-mobile/dist/antd-mobile.css';
 
 import Bed from './Bed';
-import Article from './Article';
+import ShoppingCart from './ShoppingCart';
 import Setup from './Setup';
-import {loadGoods} from '../../store/actions/goods'
-import {bindActionCreators} from 'redux';
-import {asyncAPI} from '../../store/actions/axiosData'
 
 const BED = 'Bed'
 const SHOPPINGCART = 'ShoppingCart'
@@ -21,11 +18,11 @@ const SETUP = 'Setup'
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { current: props.url || BED };
+    this.state = { current: BED };
   }
 
   static asyncData(context, route) {
-    return request.get('/v1/goods', context.state).then(res => {
+    return request.get('/v1/goods', {}, context.state).then(res => {
       return {
         goodsHandle: {
           goodsList: res.data.data.goods
@@ -38,20 +35,20 @@ class Home extends Component {
     this.setState({
       current
     });
-    switch (current) {
-    case BED:
-      this.props.asyncAPI('/api/goods','get',loadGoods);
-      break;
-    case SHOPPINGCART:
-        
-      break;
-    case SETUP:
-        
-      break;
-    
-    default:
-      break;
-    }
+    // switch (current) {
+    // case BED:
+    //   this.props.asyncAPI('/api/goods','get',loadGoods);
+    //   break;
+    // case SHOPPINGCART:
+
+    //   break;
+    // case SETUP:
+
+    //   break;
+
+    // default:
+    //   break;
+    // }
   }
 
   render() {
@@ -65,30 +62,30 @@ class Home extends Component {
       <TabBar.Item
         title="花圃"
         key={BED}
-        icon={<Icon type="home" style={{fontSize: '19px'}} />}
-        selectedIcon={<Icon type="home" style={{fontSize: '19px'}} theme="twoTone" />}
+        icon={<Icon type="home" style={{ fontSize: '19px' }} />}
+        selectedIcon={<Icon type="home" style={{ fontSize: '19px' }} theme="twoTone" />}
         selected={this.state.current === BED}
-        onPress={() => {this.handleClick(BED)}}
+        onPress={() => { this.handleClick(BED) }}
       >
         <Bed />
       </TabBar.Item>
       <TabBar.Item
-        icon={<Icon style={{fontSize: '19px'}} type="container" />}
-        selectedIcon={<Icon type="container" style={{fontSize: '19px'}} theme="twoTone" />}
+        icon={<Icon style={{ fontSize: '19px' }} type="container" />}
+        selectedIcon={<Icon type="container" style={{ fontSize: '19px' }} theme="twoTone" />}
         title="购物车"
         key={SHOPPINGCART}
         selected={this.state.current === SHOPPINGCART}
-        onPress={() => {this.handleClick(SHOPPINGCART)}}
+        onPress={() => { this.handleClick(SHOPPINGCART) }}
       >
-        <Article />
+        <ShoppingCart />
       </TabBar.Item>
       <TabBar.Item
-        icon={<Icon type="edit" style={{fontSize: '19px'}} />}
-        selectedIcon={<Icon type="edit" style={{fontSize: '19px'}} theme="twoTone" />}
+        icon={<Icon type="edit" style={{ fontSize: '19px' }} />}
+        selectedIcon={<Icon type="edit" style={{ fontSize: '19px' }} theme="twoTone" />}
         title="个人"
         key={SETUP}
         selected={this.state.current === SETUP}
-        onPress={() => {this.handleClick(SETUP)}}
+        onPress={() => { this.handleClick(SETUP) }}
       >
         <Setup />
       </TabBar.Item>

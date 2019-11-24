@@ -1,5 +1,19 @@
+import _lodash from 'lodash'
 import * as actionTypes from '../constants'
-import { createAction } from 'redux-promise'
+import * as api from '@webApi'
+
+
+const axiosGoods = (params) => {
+  return async dispatch => {
+    try {
+      let res = await api.getGoods(params)
+      let newGoodsList = _lodash.get(res, 'data.data.goods', [])
+      dispatch(loadGoods(newGoodsList))
+    } catch (error) {
+      console.log(`AXIOSGOODS FROM GOODS ACTION ERROR: ${error}`);
+    }
+  }
+}
 
 const loadGoods = data => {
   return {
@@ -8,11 +22,17 @@ const loadGoods = data => {
   }
 }
 
-const showGoodsPic = (data) => {
+const showBigPics = (data) => {
   return {
-    type: actionTypes.SHOW_GOODS_PIC,
+    type: actionTypes.SHOW_BIG_PICS,
     data
   }
 }
 
-export {loadGoods, showGoodsPic}
+const hideBigPics = () => {
+  return {
+    type: actionTypes.HIDE_BIG_PICS
+  }
+}
+
+export {loadGoods, showBigPics, hideBigPics, axiosGoods}

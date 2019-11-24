@@ -14,17 +14,17 @@ module.exports = appinfo => {
       // 密码
       password: '!qaz2wsx',
       // 数据库名
-      database: 'ChenAnDB',
+      database: 'ChenAnDB'
     },
     // 是否加载到 app 上，默认开启
     app: true,
     // 是否加载到 agent 上，默认关闭
-    agent: false,
+    agent: false
   };
   config.security = {
     csrf: {
-      enable: false,
-    },
+      enable: false
+    }
   };
   return { ...config };
 };

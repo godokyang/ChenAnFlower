@@ -6,6 +6,7 @@ module.exports = options => {
     const atCheckFlag = options.noAccessAPIs.some(item => {
       return ctx.request.url.indexOf(item) !== -1;
     }) || ctx.request.url === '/';
+    
     const res = await ctx.app.verifyToken(ctx.request.header.authorization);
     if (res.status || atCheckFlag) {
       if (!atCheckFlag) {

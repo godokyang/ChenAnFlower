@@ -2,63 +2,74 @@
 import React, { Component } from 'react'
 import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
+import {Button} from 'antd'
 import { Carousel, WingBlank } from 'antd-mobile';
 import 'antd-mobile/dist/antd-mobile.css';
 import './ridingLantern.css'
+
+import {hideBigPics} from '@webPage/home/store/actions/goods'
 
 class RidingLantern extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: ['1', '2', '3'],
       imgHeight: 176
     };
   }
 
   componentDidMount() {
-    // simulate img loading
-    setTimeout(() => {
-      this.setState({
-        data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI']
-      });
-    }, 100);
   }
+  
   render() {
-    const list = this.props.goodsHandle.bigPics
+    const {bigPics, bigPicIndex} = this.props.goodsHandle
     return (
-      list && list.length > 0 ? <WingBlank className="lantern-banner">
-        <Carousel
-          autoplay={false}
-          infinite
-          beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-          afterChange={index => console.log('slide to', index)}
-        >
-          {list.map((val, index) => (
-            <img
-              key={`bigPic_${index}`}
-              src={val.icon}
-              alt=""
-              style={{ width: '100%', verticalAlign: 'top' }}
-              onLoad={() => {
-              // fire window resize event to change height
-                window.dispatchEvent(new Event('resize'));
-                this.setState({ imgHeight: 'auto' });
-              }}
-            />
-          ))}
-        </Carousel>
-      </WingBlank> : ''
+      bigPics && bigPics.length > 0 ?
+        <div className="lantern-banner">
+          <Button 
+            className="lantern-banner-cross" 
+            shape="circle" 
+            ghost 
+            size="small" 
+            icon="close" 
+            onClick={() => {
+              this.props.hideBigPics()
+            }}
+          />
+          <Carousel
+            className="space-carousel"
+            selectedIndex={bigPicIndex}
+            cellSpacing={20}
+            autoplay={false}
+            infinite
+            slideWidth={0.9}
+          >
+            {bigPics.map((val, index) => (
+              <img
+                key={`bigPic_${index}`}
+                src={val.icon}
+                alt=""
+                style={{ minWidth: '100%', maxHeight: '70vh', verticalAlign: 'center' }}
+                onLoad={() => {
+                  // fire window resize event to change height
+                  window.dispatchEvent(new Event('resize'));
+                  this.setState({ imgHeight: 'auto' });
+                }}
+              />
+            ))}
+          </Carousel>
+        </div>
+        : ''
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  return Object.assign({}, state);
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // showGoodsPic: bindActionCreators(showGoodsPic, dispatch)
+    hideBigPics: bindActionCreators(hideBigPics, dispatch)
   }
 };
 
