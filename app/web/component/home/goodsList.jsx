@@ -134,7 +134,7 @@ class GoodsList extends React.Component {
                   shape="circle" 
                   icon="shopping-cart"
                   size="large"
-                  activeStyle={false}
+                  // activestyle={false}
                   onClick={() => {
                     console.log('====================================');
                     console.log(obj);
@@ -148,25 +148,22 @@ class GoodsList extends React.Component {
       );
     };
     return (
-      <StickyContainer style={{width: '100%',height:'100%',position: 'absolute',top: 0, left: 0}}>
+      <div style={{width: '100%',height:'100%',position: 'absolute',top: 0, left: 0,display: 'flex', flexDirection: 'column',alignItems: 'center',justifyContent: 'flex-start'}}>
+        <div className="sticky-header">
+          <h1 style={{padding:0, margin:0}}>晨安&花</h1>
+          <Select defaultValue="lucy" style={{ width: 120 }} onChange={(value) => {
+            console.log(value);
+          }}>
+            <Option value="jack">玫瑰</Option>
+            <Option value="lucy">百合</Option>
+            <Option value="disabled" disabled>郁金香</Option>
+            <Option value="Yiminghe">其他</Option>
+          </Select>
+        </div>
         <ListView
           ref={el => this.lv = el}
           dataSource={this.state.dataSource}
-          renderHeader={() => 
-            <Sticky style={{background:'white'}}>{({ style }) => {
-              return <div className="sticky-header" style={style}>
-                <h1 style={{padding:0, margin:0}}>晨安&花</h1>
-                <Select defaultValue="lucy" style={{ width: 120 }} onChange={(value) => {
-                  console.log(value);
-                }}>
-                  <Option value="jack">玫瑰</Option>
-                  <Option value="lucy">百合</Option>
-                  <Option value="disabled" disabled>郁金香</Option>
-                  <Option value="Yiminghe">其他</Option>
-                </Select>
-              </div>
-            }}</Sticky>
-          }
+          // renderHeader={() => <span>header</span> }
           renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
             {this.state.isLoading ? 'Loading...' : 'Loaded'}
           </div>)}
@@ -180,7 +177,7 @@ class GoodsList extends React.Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}
         />
-      </StickyContainer>
+      </div>
     );
   }
 }

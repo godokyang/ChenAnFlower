@@ -74,6 +74,7 @@ class Home extends Component {
         selectedIcon={<Icon type="container" style={{ fontSize: '19px' }} theme="twoTone" />}
         title="购物车"
         key={SHOPPINGCART}
+        badge={0}
         selected={this.state.current === SHOPPINGCART}
         onPress={() => { this.handleClick(SHOPPINGCART) }}
       >
@@ -93,14 +94,11 @@ class Home extends Component {
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return state;
-// };
+const mapStateToProps = (state) => {
+  return Object.assign({}, state);
+};
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     asyncAPI: bindActionCreators(asyncAPI, dispatch)
-//   }
-// };
+const mapDispatchToProps = () => {
+};
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
