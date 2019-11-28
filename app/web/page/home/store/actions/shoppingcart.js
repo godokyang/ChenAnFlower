@@ -7,18 +7,17 @@ const axiosShoppingcart = (params) => {
   return async dispatch => {
     try {
       let res = await api.getShoppingCart(params)
-      let newShoppingCartList = _lodash.get(res, 'data.data.goods', [])
-      dispatch(getShoppingCartItem(newShoppingCartList))
+      let cartInfo = _lodash.get(res, 'data.data.pro_infos', {})
+      dispatch(getShoppingCartItem(cartInfo))
     } catch (error) {
       console.warn(`AXIOSGOODS FROM GOODS ACTION ERROR: ${error}`);
     }
   }
 }
 
-const getShoppingCart = (data) => {
+const getShoppingCart = () => {
   return {
-    type: actionTypes.GET_SHOPPING_CART,
-    data
+    type: actionTypes.GET_SHOPPING_CART
   }
 }
 
@@ -58,4 +57,10 @@ const getShoppingCartItem = (data) => {
   }
 }
 
-export { axiosShoppingcart, getShoppingCart, addShoppingCart, removeShoppingCart, setShoppingCart, reduceShoppingCart }
+const removeAllShoppingCart = () => {
+  return {
+    type: actionTypes.REMOVE_ALL_SHOPPING_CART
+  }
+}
+
+export { axiosShoppingcart, getShoppingCart, addShoppingCart, removeShoppingCart, setShoppingCart, reduceShoppingCart, removeAllShoppingCart }

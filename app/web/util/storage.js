@@ -1,16 +1,17 @@
 class webStorage {
-  set(key,value) {
+  set(key, value) {
+    const newValue = JSON.parse(JSON.stringify(value))
     const storage = window.localStorage
     if (!storage[key]) {
-      storage[key] = value
+      storage[key] = JSON.stringify(newValue)
       return
     }
-    storage.setItem(key,value)
+    storage.setItem(key, JSON.stringify(newValue))
   }
 
   get(key, defaultValue) {
     const storage = window.localStorage
-    return storage.getItem(key) || defaultValue
+    return storage.getItem(key) ? JSON.parse(storage.getItem(key)) : defaultValue
   }
 
   removeAll() {

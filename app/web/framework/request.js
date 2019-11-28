@@ -10,15 +10,15 @@ const AT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmeSI6MCwidXNlcl9uYW1
 
 export default {
   post(url, params ={}, state = {}) {
-    params.headers = {};
+    const headers = {};
     if (EASY_ENV_IS_NODE) {
-      params.headers['x-csrf-token'] = !!state.csrf;
-      params.headers.Cookie = `csrfToken=${state.csrf}`;
+      headers['x-csrf-token'] = !!state.csrf;
+      headers.Cookie = `csrfToken=${state.csrf}`;
     }
     if (EASY_ENV_IS_DEV) {
-      params.headers.authorization = AT
+      headers.authorization = AT
     }
-    return axios.post(`${state.origin || SERVICE_DNS}${url}`, params);
+    return axios.put(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
   },
   get(url, params ={}, state = {}) {
     params.headers = {}
@@ -33,25 +33,25 @@ export default {
     return axios.get(`${state.origin || SERVICE_DNS}${url}`, params);
   },
   put(url, params ={}, state = {}) {
-    params.headers = {};
+    const headers = {};
     if (EASY_ENV_IS_NODE) {
-      params.headers['x-csrf-token'] = !!state.csrf;
-      params.headers.Cookie = `csrfToken=${state.csrf}`;
+      headers['x-csrf-token'] = !!state.csrf;
+      headers.Cookie = `csrfToken=${state.csrf}`;
     }
     if (EASY_ENV_IS_DEV) {
-      params.headers.authorization = AT
+      headers.authorization = AT
     }
-    return axios.put(`${state.origin || SERVICE_DNS}${url}`, params);
+    return axios.put(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
   },
   delete(url, params ={}, state = {}) {
-    params.headers = {};
+    const headers = {};
     if (EASY_ENV_IS_NODE) {
-      params.headers['x-csrf-token'] = !!state.csrf;
-      params.headers.Cookie = `csrfToken=${state.csrf}`;
+      headers['x-csrf-token'] = !!state.csrf;
+      headers.Cookie = `csrfToken=${state.csrf}`;
     }
     if (EASY_ENV_IS_DEV) {
-      params.headers.authorization = AT
+      headers.authorization = AT
     }
-    return axios.delete(`${state.origin || SERVICE_DNS}${url}`, params);
+    return axios.put(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
   }
 };

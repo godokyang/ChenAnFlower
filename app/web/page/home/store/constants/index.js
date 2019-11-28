@@ -12,6 +12,8 @@ export const SET_SHOPPING_CART = 'SET_SHOPPING_CART' // 直接设置购物车产
 
 export const REMOVE_SHOPPING_CART = 'REMOVE_SHOPPING_CART' // 删除购物车产品
 
+export const REMOVE_ALL_SHOPPING_CART = 'REMOVE_ALL_SHOPPING_CART' // 删除所有购物车
+
 export const SHOW_BIG_PICS = 'SHOW_BIG_PICS' // 产品显示走马灯
 
 export const HIDE_BIG_PICS = 'HIDE_BIG_PICS' // 隐藏走马灯

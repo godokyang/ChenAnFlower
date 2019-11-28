@@ -10,14 +10,15 @@ import 'antd-mobile/dist/antd-mobile.css';
 import Bed from './Bed';
 import ShoppingCart from './ShoppingCart';
 import Setup from './Setup';
+import {getShoppingCart, removeAllShoppingCart, axiosShoppingcart} from '@webPage/home/store/actions/shoppingcart'
+
 import webStorage from '@webUtil/storage'
-import {getShoppingCart, axiosShoppingcart} from '@webPage/home/store/actions/shoppingcart'
 import {storageKey} from '@webConfig'
 
 const BED = 'Bed'
 const SHOPPINGCART = 'ShoppingCart'
 const SETUP = 'Setup'
-let storage = null
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +36,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    
+    this.props.getCart()
   }
 
   handleClick(current) {
@@ -46,9 +47,8 @@ class Home extends Component {
       console.info('Index is loading')
     }
     if (current === SHOPPINGCART) {
-      const cartList = storage.get(storageKey.shoppingCart, [])
-      this.props.getCart(cartList)
-      this.props.getCartItem()
+      const cartList = webStorage.get(storageKey.shoppingCart, [])
+      this.props.getCartItem(cartList)
     }
     if (current === SETUP) {
       console.info('SETUP is loading')
@@ -56,6 +56,7 @@ class Home extends Component {
   }
 
   render() {
+    const cartCount = this.props.shoppingcartCountHandle ? this.props.shoppingcartCountHandle.length : 0;
     return <TabBar
       unselectedTintColor="#949494"
       tintColor="#33A3F4"
@@ -78,7 +79,7 @@ class Home extends Component {
         selectedIcon={<Icon type="container" style={{ fontSize: '19px' }} theme="twoTone" />}
         title="购物车"
         key={SHOPPINGCART}
-        badge={0}
+        badge={cartCount}
         selected={this.state.current === SHOPPINGCART}
         onPress={() => { this.handleClick(SHOPPINGCART) }}
       >
@@ -104,6 +105,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    removeAllCart: bindActionCreators(removeAllShoppingCart, dispatch),
     getCart: bindActionCreators(getShoppingCart, dispatch),
     getCartItem: bindActionCreators(axiosShoppingcart, dispatch)
   }

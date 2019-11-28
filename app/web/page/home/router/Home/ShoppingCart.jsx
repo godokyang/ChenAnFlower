@@ -5,12 +5,12 @@ import { List, Avatar } from 'antd';
 import { InputItem, Switch, Stepper, Range, Button } from 'antd-mobile';
 import InfiniteScroll from 'react-infinite-scroller';
 import SingleItem from '@webComp/common/singleItem'
-import webStorage from '@webUtil/storage'
 const {Item} = List
 import './ShoppingCart.css'
 import '@web/commoncss/common.css'
 
 import {getShoppingCart, axiosShoppingcart} from '@webPage/home/store/actions/shoppingcart'
+import webStorage from '@webUtil/storage'
 import {storageKey} from '@webConfig'
 
 class ShoppingCart extends Component {
@@ -21,16 +21,10 @@ class ShoppingCart extends Component {
 
   componentDidMount() {
     // const cartList = webStorage.get(storageKey.shoppingCart, [])
-    // this.props.getCart(cartList)
-    // this.props.getCartItem()
+    // this.props.getCartItem(cartList)
   }
 
   state = {
-    data: [{
-      id: 1,
-      name: 'yangke',
-      email: 'godokyang'
-    }],
     loading: false,
     hasMore: true
   };
@@ -38,12 +32,10 @@ class ShoppingCart extends Component {
 
 
   handleInfiniteOnLoad() {
-    console.log('====================================');
-    console.log(123);
-    console.log('====================================');
   }
 
   render() {
+    const {agent_total,owner_total,sale_total,items} = this.props.getShoppingCartItem
     return (
       <div className="demo-infinite-container">
         <InfiniteScroll
@@ -54,7 +46,7 @@ class ShoppingCart extends Component {
           useWindow={false}
         >
           <List
-            dataSource={this.state.data}
+            dataSource={items}
             renderItem={item => (
               <SingleItem item={item} />
             )}

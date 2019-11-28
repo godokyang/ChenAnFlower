@@ -4,12 +4,15 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 import { ListView, Grid } from 'antd-mobile';
 import { Select, Button } from 'antd';
+import webStorage from '@webUtil/storage';
 const { Option } = Select;
 import _lodash from 'lodash'
 import 'antd-mobile/dist/antd-mobile.css';
 import './goodsList.css'
 
 import {showBigPics, axiosGoods} from '@webPage/home/store/actions/goods'
+import {addShoppingCart} from '@webPage/home/store/actions/shoppingcart'
+import {storageKey} from '@webConfig'
 
 const NUM_ROWS = 5;
 
@@ -138,6 +141,7 @@ class GoodsList extends React.Component {
                     console.log('====================================');
                     console.log(obj);
                     console.log('====================================');
+                    this.props.addCart(obj.sku)
                   }}
                 />
               </div>
@@ -188,7 +192,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     showBigPics: bindActionCreators(showBigPics, dispatch),
-    axiosGoods: bindActionCreators(axiosGoods, dispatch)
+    axiosGoods: bindActionCreators(axiosGoods, dispatch),
+    addCart: bindActionCreators(addShoppingCart, dispatch)
   }
 };
 
