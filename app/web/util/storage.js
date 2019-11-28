@@ -1,15 +1,6 @@
-export default class webStorage {
-  get status(){
-    if (window) {
-      return window.localStorage && window.sessionStorage
-    }
-    return false
-  }
+class webStorage {
   set(key,value) {
-    if (!window) {
-      return
-    }
-    const storage = window.localStorage || window.sessionStorage
+    const storage = window.localStorage
     if (!storage[key]) {
       storage[key] = value
       return
@@ -17,27 +8,20 @@ export default class webStorage {
     storage.setItem(key,value)
   }
 
-  get(key) {
-    if (!window) {
-      return
-    }
-    const storage = window.localStorage || window.sessionStorage
-    return storage.getItem(key)
+  get(key, defaultValue) {
+    const storage = window.localStorage
+    return storage.getItem(key) || defaultValue
   }
 
   removeAll() {
-    if (!window) {
-      return
-    }
-    const storage = window.localStorage || window.sessionStorage
+    const storage = window.localStorage
     storage.clear()
   }
 
   remove(key) {
-    if (!window) {
-      return
-    }
-    const storage = window.localStorage || window.sessionStorage
+    const storage = window.localStorage
     storage.removeItem(key)
   }
 }
+
+export default new webStorage()

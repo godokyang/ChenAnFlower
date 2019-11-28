@@ -1,18 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux'
 import { List, Avatar } from 'antd';
 import { InputItem, Switch, Stepper, Range, Button } from 'antd-mobile';
 import InfiniteScroll from 'react-infinite-scroller';
 import SingleItem from '@webComp/common/singleItem'
-import * as storage from '@webUtil/storage'
+import webStorage from '@webUtil/storage'
 const {Item} = List
 import './ShoppingCart.css'
 import '@web/commoncss/common.css'
 
+import {getShoppingCart, axiosShoppingcart} from '@webPage/home/store/actions/shoppingcart'
+import {storageKey} from '@webConfig'
+
 class ShoppingCart extends Component {
   constructor(props) {
     super(props)
-    // this.storage = new storage()
+    
+  }
+
+  componentDidMount() {
+    // const cartList = webStorage.get(storageKey.shoppingCart, [])
+    // this.props.getCart(cartList)
+    // this.props.getCartItem()
   }
 
   state = {
@@ -24,6 +34,8 @@ class ShoppingCart extends Component {
     loading: false,
     hasMore: true
   };
+
+
 
   handleInfiniteOnLoad() {
     console.log('====================================');
@@ -59,12 +71,15 @@ class ShoppingCart extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  
-})
+const mapStateToProps = (state) => {
+  return Object.assign({}, state)
+}
 
-const mapDispatchToProps = {
-  
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCart: bindActionCreators(getShoppingCart, dispatch),
+    getCartItem: bindActionCreators(axiosShoppingcart, dispatch)
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCart)

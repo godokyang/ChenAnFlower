@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Link, Switch } from 'react-router-dom';
+import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux';
 import request from 'framework/request'
 
@@ -10,11 +10,14 @@ import 'antd-mobile/dist/antd-mobile.css';
 import Bed from './Bed';
 import ShoppingCart from './ShoppingCart';
 import Setup from './Setup';
+import webStorage from '@webUtil/storage'
+import {getShoppingCart, axiosShoppingcart} from '@webPage/home/store/actions/shoppingcart'
+import {storageKey} from '@webConfig'
 
 const BED = 'Bed'
 const SHOPPINGCART = 'ShoppingCart'
 const SETUP = 'Setup'
-
+let storage = null
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -31,24 +34,25 @@ class Home extends Component {
     });
   }
 
+  componentDidMount() {
+    
+  }
+
   handleClick(current) {
     this.setState({
       current
     });
-    // switch (current) {
-    // case BED:
-    //   this.props.asyncAPI('/api/goods','get',loadGoods);
-    //   break;
-    // case SHOPPINGCART:
-
-    //   break;
-    // case SETUP:
-
-    //   break;
-
-    // default:
-    //   break;
-    // }
+    if (current === BED) {
+      console.info('Index is loading')
+    }
+    if (current === SHOPPINGCART) {
+      const cartList = storage.get(storageKey.shoppingCart, [])
+      this.props.getCart(cartList)
+      this.props.getCartItem()
+    }
+    if (current === SETUP) {
+      console.info('SETUP is loading')
+    }
   }
 
   render() {
@@ -98,7 +102,11 @@ const mapStateToProps = (state) => {
   return Object.assign({}, state);
 };
 
-const mapDispatchToProps = () => {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCart: bindActionCreators(getShoppingCart, dispatch),
+    getCartItem: bindActionCreators(axiosShoppingcart, dispatch)
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

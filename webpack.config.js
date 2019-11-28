@@ -30,7 +30,8 @@ module.exports = {
       '@webComp': resolve('app/web/component'),
       '@webPage': resolve('app/web/page'),
       '@webApi': resolve('app/web/api'),
-      '@webUtil': resolve('app/web/util')
+      '@webUtil': resolve('app/web/util'),
+      '@webConfig': resolve('app/web/config')
     }
   }
 };

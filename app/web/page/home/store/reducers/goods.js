@@ -1,9 +1,11 @@
 import * as actionTypes from '../constants';
 
-const goodsHandle = (state = {
+const initialState = {
   goodsList: [],
   bigPics: []
-}, action) => {
+}
+
+const goodsHandle = (state = initialState, action) => {
   const newState = Object.assign({}, state);
   switch (action.type) {
   case actionTypes.LOAD_GOODS:

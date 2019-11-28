@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux'
 import { ListView, Grid } from 'antd-mobile';
 import { Select, Button } from 'antd';
 const { Option } = Select;
-import { StickyContainer, Sticky } from 'react-sticky';
 import _lodash from 'lodash'
 import 'antd-mobile/dist/antd-mobile.css';
 import './goodsList.css'
