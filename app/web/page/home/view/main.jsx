@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Rootlayout from 'component/layout/default'
 import Home from '../router/Home'
 import Manage from '../router/Manage'
+import OrderConfirm from '../router/OrderConfirm'
 
 import './main.css'
 
@@ -25,6 +26,7 @@ class Main extends Component {
         <Route path="/web/home" component={Home} />
         <Route path="/web/client" component={Home} />
         <Route path="/web/manage" component={Manage} />
+        <Route path="/web/orderConfirm" component={OrderConfirm} />
       </Switch>
     </Rootlayout>
   }

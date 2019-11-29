@@ -63,6 +63,7 @@ const shoppingcartCountHandle = (state = initialState.cartList, action) => {
     webStorage.set(storageKey.shoppingCart, newCart)
     return newCart
   case actionTypes.SET_SHOPPING_CART:
+    newGoodsItem = action.data
     newCart = mergeSkuObjToCart(state, newGoodsItem)
     webStorage.set(storageKey.shoppingCart, newCart)
     return newCart

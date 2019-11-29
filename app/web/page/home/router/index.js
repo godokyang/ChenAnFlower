@@ -1,5 +1,6 @@
 import Home from './Home';
 import Manage from './Manage'
+import OrderConfirm from './OrderConfirm/index'
 
 const NotFound = () => {
   return (
@@ -26,6 +27,10 @@ export default function createRouter() {
     {
       path: '/web/manage',
       component: Manage
+    },
+    {
+      path: '/web/orderConfirm',
+      component: OrderConfirm
     },
     {
       path: '*',

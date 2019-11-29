@@ -1,12 +1,13 @@
 import _lodash from 'lodash'
 import * as actionTypes from '../constants'
 import * as api from '@webApi'
+import webStorage from '@webUtil/storage'
+import {storageKey} from '@webConfig'
 
-
-const axiosShoppingcart = (params) => {
+const axiosShoppingcart = () => {
   return async dispatch => {
     try {
-      let res = await api.getShoppingCart(params)
+      let res = await api.getShoppingCart(webStorage.get(storageKey.shoppingCart, []))
       let cartInfo = _lodash.get(res, 'data.data.pro_infos', {})
       dispatch(getShoppingCartItem(cartInfo))
     } catch (error) {

@@ -6,7 +6,7 @@ axios.defaults.xsrfHeaderName = 'x-csrf-token';
 axios.defaults.xsrfCookieName = 'csrfToken';
 const SERVICE_DNS = 'http://localhost:7001'
 
-const AT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmeSI6MCwidXNlcl9uYW1lIjoidGVzdCIsIm5pY2tfbmFtZSI6bnVsbCwicGhvbmVfbnVtYmVyIjpudWxsLCJlbWFpbCI6bnVsbCwiaGVhZF9pbWFnZSI6bnVsbCwiY3JlYXRlX3RpbWUiOjAsInVuaW9uX2lkIjpudWxsLCJjdXN0b21lcl9pZCI6MTAwMDAwMDAwMDIsInN0YXR1cyI6MTAsImlhdCI6MTU3NDc3MzA3NywiZXhwIjoxNTc1MDMyMjc3fQ.Z4KhQR6M1AQLl6wwHPq8dvtGBYdFE9zLa-Z6uux012U'
+const AT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmeSI6MCwidXNlcl9uYW1lIjoidGVzdCIsIm5pY2tfbmFtZSI6bnVsbCwicGhvbmVfbnVtYmVyIjpudWxsLCJlbWFpbCI6bnVsbCwiaGVhZF9pbWFnZSI6bnVsbCwiY3JlYXRlX3RpbWUiOjAsInVuaW9uX2lkIjpudWxsLCJjdXN0b21lcl9pZCI6MTAwMDAwMDAwMDIsInN0YXR1cyI6MTAsImlhdCI6MTU3NTAzNDQ3OCwiZXhwIjoxNTc1MjkzNjc4fQ.g6ttWc6lYhhDVhOtm_Jl6t63pxW-YBFamQveycUb7Wo'
 
 export default {
   post(url, params ={}, state = {}) {

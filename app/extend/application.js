@@ -18,7 +18,7 @@ module.exports = {
     // const currentTime = Math.floor(Date.now() / 1000);
     const secretKey = fs.readFileSync(path.resolve(__dirname, '../../config/tokenSecretKey'));
     const token = jwt.sign(content, secretKey, {
-      expiresIn: '72h',
+      expiresIn: '72h'
     });
 
     return token;
@@ -39,5 +39,5 @@ module.exports = {
       }
       return result;
     }, {});
-  },
+  }
 };
