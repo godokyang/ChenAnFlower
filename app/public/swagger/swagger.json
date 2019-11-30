@@ -221,6 +221,45 @@
         }
       }
     },
+    "/orgin/{id}": {
+      "get": {
+        "tags": ["user"],
+        "summary": "获取省市县",
+        "description": "获取省市县",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
     "/goods": {
       "get": {
         "tags": [

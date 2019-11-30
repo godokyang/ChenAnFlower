@@ -20,6 +20,12 @@ class AddressController extends Controller {
     const result = await ctx.service.address.deleteAddress();
     ctx.body = result;
   }
+
+  async getOrgin() {
+    const { ctx } = this;
+    const result = await ctx.service.address.getOrgin();
+    ctx.body = result;
+  }
 }
 
 module.exports = AddressController;

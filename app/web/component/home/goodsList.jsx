@@ -138,9 +138,6 @@ class GoodsList extends React.Component {
                   size="large"
                   // activestyle={false}
                   onClick={() => {
-                    console.log('====================================');
-                    console.log(obj);
-                    console.log('====================================');
                     this.props.addCart(obj.sku)
                   }}
                 />

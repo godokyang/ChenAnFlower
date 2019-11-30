@@ -19,3 +19,11 @@ export const REMOVE_ALL_SHOPPING_CART = 'REMOVE_ALL_SHOPPING_CART' // 删除所�
 export const SHOW_BIG_PICS = 'SHOW_BIG_PICS' // 产品显示走马灯
 
 export const HIDE_BIG_PICS = 'HIDE_BIG_PICS' // 隐藏走马灯
+
+export const CONFIRM_ORDER = 'CONFIRM_ORDER' // 确认订单
+
+export const SUBMIT_ORDER = 'SUBMIT_ORDER' // 提交订单
+
+export const SET_ORGIN = 'SET_ORGIN' // 设置订单省市县
+
+export const SET_SUB_ORGIN = 'SET_SUB_ORGIN' // 获取省市县次级目录

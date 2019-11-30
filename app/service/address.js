@@ -136,6 +136,60 @@ class AddressService extends Service {
       error: result
     });
   }
+
+  async getOrgin() {
+    const { ctx, app } = this;
+    const { id } = ctx.params;
+    // 0: province 1: 根据ID拿二级目录 2:根据city拿全部
+    const { type } = ctx.request.query
+    if (!type || Number(type) === 0) {
+      const orginQueryData = await app.mysql.query('SELECT * FROM pub_address_inf WHERE ADD_CITYCODE = 000000')
+      return Object.assign({}, Code.SUCCESS, {
+        data: { orgin: orginQueryData }
+      });
+    }
+    if (Number(type) === 1) {
+      const orginQueryData = await app.mysql.beginTransactionScope(async conn => {
+        let curOrgin = await conn.get('pub_address_inf', {
+          ADD_ID: id
+        });
+        let curSub = await conn.query(`SELECT * FROM pub_address_inf WHERE ADD_CITYCODE = ${curOrgin['ADD_CODE']}`)
+        return curSub;
+      }, ctx); 
+      return Object.assign({}, Code.SUCCESS, {
+        data: { orgin: orginQueryData }
+      });
+    }
+
+    if (Number(type) === 2) {
+      const orginQueryData = await app.mysql.beginTransactionScope(async conn => {
+        // don't commit or rollback by yourself
+        let curCity = await conn.get('pub_address_inf', {
+          ADD_ID: id
+        });
+        let curCounty = await conn.get('pub_address_inf', {
+          ADD_CODE: curCity['ADD_CITYCODE']
+        })
+        let curProvince = await conn.get('pub_address_inf', {
+          ADD_CODE: curCounty['ADD_CITYCODE']
+        })
+        
+        return {
+          province: curProvince || {},
+          county: curCounty || {},
+          city: curCity || {}
+        };
+      }, ctx);
+      return Object.assign({}, Code.SUCCESS, {
+        data: { orgin: orginQueryData }
+      });
+    }
+    
+    return Object.assign({}, Code.ERROR, {
+      message: 'paramters wrong',
+      error_code: 600
+    });
+  }
 }
 
 module.exports = AddressService;

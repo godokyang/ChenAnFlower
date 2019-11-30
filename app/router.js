@@ -28,6 +28,8 @@ module.exports = app => {
   router.put('/v1/address/:address_id', controller.api.address.updateAddress);
   // 删除地址
   router.del('/v1/address/:address_id', controller.api.address.deleteAddress);
+  // 删除地址
+  router.get('/v1/orgin/:id', controller.api.address.getOrgin);
   // 获取初始订单信息
   router.put('/v1/order', controller.api.order.confrimOrder);
   // 提交订单
