@@ -26,4 +26,4 @@ export const SUBMIT_ORDER = 'SUBMIT_ORDER' // 提交订单
 
 export const SET_ORGIN = 'SET_ORGIN' // 设置订单省市县
 
-export const SET_SUB_ORGIN = 'SET_SUB_ORGIN' // 获取省市县次级目录
+export const SUBMIT_PART_ORDER = 'SUBMIT_PART_ORDER' // 页面内设置订单信息

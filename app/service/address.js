@@ -25,6 +25,12 @@ class AddressService extends Service {
     const { ctx } = this;
     const { ADD_ID, detail, contact, receiver } = ctx.request.body;
     const { customer_id } = ctx.request.header.user_info;
+    if (!ADD_ID || !detail || !contact || !receiver) {
+      return Object.assign({}, Code.ERROR, {
+        message: 'Address Paramters Has Error',
+        error_code: 600
+      });
+    }
     const insertData = {
       ADD_ID,
       detail,
@@ -76,7 +82,12 @@ class AddressService extends Service {
     const { address_id } = ctx.params;
     const { customer_id } = ctx.request.header;
     const { ADD_ID, detail, contact, receiver } = ctx.request.body;
-
+    if (!ADD_ID || !detail || !contact || !receiver || !address_id) {
+      return Object.assign({}, Code.ERROR, {
+        message: 'Address Paramters Has Error',
+        error_code: 600
+      });
+    }
     if (!address_id) {
       return Object.assign({}, Code.ERROR, {
         message: 'No Address_id Selected',
@@ -140,6 +151,12 @@ class AddressService extends Service {
   async getOrgin() {
     const { ctx, app } = this;
     const { id } = ctx.params;
+    if (!id || id === 'undefined') {
+      return Object.assign({}, Code.ERROR, {
+        message: 'id Is Not Define',
+        error_code: 600
+      });
+    }
     // 0: province 1: 根据ID拿二级目录 2:根据city拿全部
     const { type } = ctx.request.query
     if (!type || Number(type) === 0) {

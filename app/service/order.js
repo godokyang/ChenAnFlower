@@ -3,6 +3,7 @@
 const Service = require('egg').Service;
 const { Code } = require('../utils/util');
 const uuid = require('uuid');
+const _lodash = require('lodash')
 
 /**
  *
@@ -49,6 +50,12 @@ class OrderService extends Service {
      */
     const { ctx } = this;
     const arr = ctx.request.body;
+    if (!arr || !arr[0]) {
+      return Object.assign({}, Code.ERROR, {
+        message: 'ConfirmOrder Paramters Not Right',
+        error_code: 600
+      });
+    }
     const allow = arr.every(item => {
       return item.sku && item.quantity;
     });
@@ -56,7 +63,7 @@ class OrderService extends Service {
     if (!allow) {
       // sku or quantity is not define in paramters
       return Object.assign({}, Code.ERROR, {
-        message: 'ShoppingCart Paramters Not Right',
+        message: 'ConfirmOrder Paramters Not Right',
         error_code: 600
       });
     }
@@ -73,8 +80,10 @@ class OrderService extends Service {
 
     const result = await ctx.service.common.getGoodsBySkus(arr);
     if (result.status) {
-      if (addressRes[0].address_id) {
+      if (_lodash.get(addressRes, '[0].address_id', null)) {
         result.data.address = addressRes[0];
+      } else {
+        result.data.address = {}
       }
       return Object.assign({}, Code.SUCCESS, {
         data: { order_info: result.data }
@@ -103,11 +112,46 @@ class OrderService extends Service {
     }
 
     const order_id = uuid.v1();
-
     const conn = await ctx.app.mysql.beginTransaction(); // 初始化事务
     const total = obj.agent_id ? obj.sale_total : obj.agent_total;
     if (verifyOrder()) {
       return Object.assign({}, Code.ERROR);
+    }
+    const address = _lodash.get(obj, 'address', null)
+    let addressRes = null
+    if (address) {
+      const noDefineList = [];
+      for (const key in address) {
+        if (address.hasOwnProperty(key)) {
+          const element = address[key];
+          if (!element) {
+            noDefineList.push(key);
+          }
+        }
+      }
+
+      if (noDefineList.length > 0) {
+        return Object.assign({}, Code.ERROR, {
+          message: `Following Data Has Not Define: ${noDefineList.toString()}`,
+          error_code: 600
+        });
+      }
+
+      if (address.address_id) {
+        addressRes = await ctx.app.mysql.update('ChenAnDB_address', {
+          ADD_ID: address.ADD_ID, 
+          detail: address.detail,
+          contact: address.contact, 
+          receiver: address.receiver
+        }, {
+          where: { address_id: address.address_id }
+        });
+      } else {
+        addressRes = await ctx.app.mysql.insert('ChenAnDB_address', Object.assign(address, {customer_id: userRes.customer_id, address_id: uuid.v1()}));
+      }
+    }
+    if (addressRes.affectedRows !== 1) {
+      return Object.assign({message: 'address wrong'}, Code.ERROR);
     }
     try {
       await conn.insert('ChenAnDB_order_info', {

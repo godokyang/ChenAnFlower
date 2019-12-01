@@ -18,7 +18,7 @@ export default {
     if (EASY_ENV_IS_DEV) {
       headers.authorization = AT
     }
-    return axios.put(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
+    return axios.post(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
   },
   get(url, params ={}, state = {}) {
     params.headers = {}
@@ -52,6 +52,6 @@ export default {
     if (EASY_ENV_IS_DEV) {
       headers.authorization = AT
     }
-    return axios.put(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
+    return axios.delete(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
   }
 };

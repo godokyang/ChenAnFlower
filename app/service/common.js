@@ -9,6 +9,9 @@ class CommonService extends Service {
      * {sku: xxx, quantity: xxx}
      * ]
      */
+    if (!arr || !arr[0]) {
+      return { status: false, data: null };
+    }
     const allow = arr.every(item => {
       return item.sku && item.quantity;
     });

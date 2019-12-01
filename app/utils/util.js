@@ -3,7 +3,6 @@
 module.exports = {
   Code: {
     SUCCESS: {
-      status: 200,
       error_code: 0,
       message: 'Success'
     },

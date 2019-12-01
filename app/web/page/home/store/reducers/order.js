@@ -28,13 +28,11 @@ const setCurOrgin = (state = initialState, action) => {
   return state
 }
 
-const setSubOrgin = (state = [], action) => {
-  let newState = [...state]
-  if (action.type === actionTypes.SET_SUB_ORGIN) {
-    newState = newState.length === 0 ? [...action.data.orgin] : mappingIndexArr(newState, action.data.indexArr, action.data.orgin)
-    return newState
+const submitPartOrder = (state = initialState, action) => {
+  if (action.type === actionTypes.SUBMIT_PART_ORDER) {
+    return Object.assign({}, state, action.data)
   }
   return state
 }
 
-export {confirmOrder, setCurOrgin, setSubOrgin}
+export {confirmOrder, setCurOrgin, submitPartOrder}
