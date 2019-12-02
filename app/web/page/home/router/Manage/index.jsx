@@ -15,7 +15,7 @@ class Manage extends Component {
 
   render() {
     return <div>
-      管理
+      <Link to="/web/login">登录</Link>
     </div>
   }
 }

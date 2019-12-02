@@ -132,6 +132,38 @@
       }
     },
     "/address/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "获取地址",
+        "description": "获取地址",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "address_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      },
       "put": {
         "tags": [
           "user"

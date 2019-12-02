@@ -28,7 +28,7 @@ export default class SingleItem extends Component {
           padding: '10px',
           width: '100%'
         }}>
-          <img style={{ width: '120px', height: '120px' }} src={item.images.split(',')[0]} alt="" />
+          <img style={{ width: '120px', height: '120px' }} src={item.images ? item.images.split(',')[0] : ''} alt="" />
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '120px', alignItems: 'flex-end', marginLeft: '10px' }}>
             {
               noControl ? '' :

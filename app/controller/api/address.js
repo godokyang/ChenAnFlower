@@ -29,6 +29,13 @@ class AddressController extends Controller {
     ctx.response = Object.assign(ctx.response, result)
     ctx.body = result;
   }
+
+  async getAddress() {
+    const { ctx } = this;
+    const result = await ctx.service.address.getAddress();
+    ctx.response = Object.assign(ctx.response, result)
+    ctx.body = result;
+  }
 }
 
 module.exports = AddressController;

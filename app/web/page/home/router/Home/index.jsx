@@ -6,6 +6,7 @@ import request from 'framework/request'
 import { Icon } from 'antd';
 import { TabBar } from 'antd-mobile';
 import 'antd-mobile/dist/antd-mobile.css';
+import 'antd/dist/antd.css';
 
 import Bed from './Bed';
 import ShoppingCart from './ShoppingCart';

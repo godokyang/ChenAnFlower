@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import _lodash from 'lodash'
 import { Descriptions, List, Button, Cascader, Icon, Input, Spin, message } from 'antd';
-import { InputItem, Switch, Stepper, Range } from 'antd-mobile';
+import webStorage from '@webUtil/storage'
+import {storageKey} from '@webConfig'
 import Header from '@webComp/common/header'
 import SingleItem from '@webComp/common/singleItem'
 import * as api from '@webApi'
@@ -12,6 +13,7 @@ import './index.css'
 const { TextArea } = Input
 
 import { axiosConfirm, axiosSetOrgin, setOrgin, submitPartOrder } from '@webPage/home/store/actions/order'
+import { removeAllShoppingCart } from '@webPage/home/store/actions/shoppingcart'
 
 class OrderConfirm extends Component {
   constructor(props) {
@@ -89,6 +91,9 @@ class OrderConfirm extends Component {
       this.setState({
         loading: false
       })
+      message.info('提交成功！')
+      this.props.removeShoppingCart()
+      this.props.history.replace('/web/orderList')
     } catch (error) {
       this.setState({
         loading: false
@@ -116,7 +121,7 @@ class OrderConfirm extends Component {
         this.state.error ? <Alert message={this.state.error} type="success" showIcon /> : ''
       }
       <Header subTitle="订单提交" history={history} />
-      <div className="order-context-root">
+      <div className="order-context-root" style={{marginTop: '65px'}}>
         <Descriptions bordered >
           <Descriptions.Item label="姓名">
             <Input
@@ -139,7 +144,7 @@ class OrderConfirm extends Component {
           </Descriptions.Item>
           <Descriptions.Item label="地区">
             <span>
-              {`${_lodash.get(setCurOrgin, 'province.ADD_NAME', '请添加')} ${_lodash.get(setCurOrgin, 'county.ADD_NAME', '')} ${_lodash.get(setCurOrgin, 'city.ADD_NAME', '')}`}
+              {`${_lodash.get(setCurOrgin, 'province.ADD_NAME', '')} ${_lodash.get(setCurOrgin, 'county.ADD_NAME', '')} ${_lodash.get(setCurOrgin, 'city.ADD_NAME', '')}`}
               &nbsp;
               <Cascader
                 fieldNames={{
@@ -203,7 +208,8 @@ const mapDispatchToProps = (dispatch) => {
     submitPartOrder: bindActionCreators(submitPartOrder, dispatch),
     setCurOrign: bindActionCreators(setOrgin, dispatch),
     setCurOrginAsync: bindActionCreators(axiosSetOrgin, dispatch),
-    confirmOrderAsync: bindActionCreators(axiosConfirm, dispatch)
+    confirmOrderAsync: bindActionCreators(axiosConfirm, dispatch),
+    removeShoppingCart: bindActionCreators(removeAllShoppingCart, dispatch)
   }
 }
 

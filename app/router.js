@@ -25,6 +25,8 @@ module.exports = app => {
   // 新建地址
   router.post('/v1/address', controller.api.address.createAddress);
   // 修改地址
+  router.get('/v1/address/:address_id', controller.api.address.getAddress);
+  // 修改地址
   router.put('/v1/address/:address_id', controller.api.address.updateAddress);
   // 删除地址
   router.del('/v1/address/:address_id', controller.api.address.deleteAddress);

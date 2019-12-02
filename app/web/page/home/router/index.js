@@ -1,6 +1,9 @@
 import Home from './Home';
 import Manage from './Manage'
-import OrderConfirm from './OrderConfirm/index'
+import OrderConfirm from './OrderConfirm'
+import OrderList from './OrderList'
+import OrderDetail from './OrderDetail'
+import Login from '../router/Login'
 
 const NotFound = () => {
   return (
@@ -31,6 +34,18 @@ export default function createRouter() {
     {
       path: '/web/orderConfirm',
       component: OrderConfirm
+    },
+    {
+      path: '/web/orderList',
+      component: OrderList
+    },
+    {
+      path: '/web/orderDetail',
+      component: OrderDetail
+    },
+    {
+      path: '/web/login',
+      component: Login
     },
     {
       path: '*',

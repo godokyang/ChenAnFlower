@@ -207,6 +207,48 @@ class AddressService extends Service {
       error_code: 600
     });
   }
+
+  async getAddress() {
+    const { ctx, app } = this;
+    const { address_id } = ctx.params;
+    if (!address_id || address_id === 'undefined') {
+      return Object.assign({}, Code.ERROR, {
+        message: 'id Is Not Define',
+        error_code: 600
+      });
+    }
+
+    try {
+      const addressRes = await app.mysql.get('ChenAnDB_address', {address_id: address_id})
+      const orginQueryData = await app.mysql.beginTransactionScope(async conn => {
+        // don't commit or rollback by yourself
+        let curCity = await conn.get('pub_address_inf', {
+          ADD_ID: addressRes.ADD_ID
+        });
+        let curCounty = await conn.get('pub_address_inf', {
+          ADD_CODE: curCity['ADD_CITYCODE']
+        })
+        let curProvince = await conn.get('pub_address_inf', {
+          ADD_CODE: curCounty['ADD_CITYCODE']
+        })
+        
+        return {
+          province: curProvince || {},
+          county: curCounty || {},
+          city: curCity || {}
+        };
+      }, ctx);
+      addressRes.orgin = orginQueryData
+      return Object.assign({}, Code.SUCCESS, {
+        data: { address: addressRes }
+      });
+    } catch (error) {
+      return Object.assign({}, Code.ERROR, {
+        message: 'Get Data Failed',
+        error_code: 603
+      });
+    }
+  }
 }
 
 module.exports = AddressService;

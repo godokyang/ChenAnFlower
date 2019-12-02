@@ -9,3 +9,9 @@ export const confirmOrder = (params = []) => request.put('/v1/order', params)
 export const submitOrder = (params = {}) => request.post('/v1/order', params)
 
 export const getOrgin = (id ,params) => request.get(`/v1/orgin/${id}`, params)
+
+export const getOrderList = (params) => request.get('/v1/order/list', params)
+
+export const getOrderListGoods = (order_id, params) => request.get(`/v1/order/${order_id}/goods`, params)
+
+export const getAddressById = (address_id, params) => request.get(`/v1/address/${address_id}`, params)

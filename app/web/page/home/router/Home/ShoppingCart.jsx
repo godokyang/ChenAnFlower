@@ -70,6 +70,7 @@ class ShoppingCart extends Component {
               >
                 
                 <Link to='/web/orderConfirm'>购买</Link>
+                {/* <Link to='/web/orderList'>购买</Link> */}
               </Button>
             </div>
             :''

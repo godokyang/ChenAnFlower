@@ -5,36 +5,6 @@ const { Code } = require('../utils/util');
 const uuid = require('uuid');
 const _lodash = require('lodash')
 
-/**
- *
- *
-{
-	"owner_total": 700,
-	"agent_total": 700,
-	"sale_total": 700,
-	"items": [{
-		"goods_name": "11月10日云南宏杰鲜花种植基地保鲜红玫，报价更新如下:B级，100扎，21.5元C.级，130扎，19元D级，80扎，16元全部灰霉处理，所有等级枝枝到底，全部基地新鲜采摘，绝无冷藏货，有售后保障，需要的麻烦早点下单，大量有货，每天20点开始配送",
-		"pro_desc": "测试",
-		"images": "https://xcimg.szwego.com/20191110/a1573356924776_0714.jpg?imageView2/2/format/jpg/q/100",
-		"sale_price": 100,
-		"agent_price": 100,
-		"sku": 1000001,
-		"owner_price": 100,
-		"top_level": 0,
-		"show_level": 0,
-		"owner_shop_id": "A201902190956237250142523",
-		"quantity": 7
-	}],
-	"address": {
-		"detail": "测试不打",
-		"contact": "1877777772",
-		"receiver": "杨科1",
-		"customer_id": 10000000001,
-		"address_id": "088eb780-045a-11ea-a4ce-5742e1169183",
-		"ADD_ID": 1558
-	}
-}
- */
 const verifyOrder = params => {
   // TODO order check
   console.log(params);
@@ -171,7 +141,9 @@ class OrderService extends Service {
           goods_name: item.goods_name,
           goods_count: item.quantity,
           shop_id: item.owner_shop_id,
-          goods_price: item.sale_price
+          goods_price: item.sale_price,
+          images: item.images,
+          video: item.video
         });
       }
       // 第二步操作
@@ -191,15 +163,24 @@ class OrderService extends Service {
     if (!userRes.status) {
       return Object.assign({}, Code.ACCESSINVALID);
     }
+    
+    const listQueryData = await ctx.app.mysql.beginTransactionScope(async conn => {
+      let list = await conn.select('ChenAnDB_order_info', {
+        customer_id: userRes.customer_id
+      });
 
-    const result = await ctx.app.mysql.select('ChenAnDB_order_info', {
-      customer_id: userRes.customer_id
-    });
+      let payment_mapping = await conn.select('ChenAnDB_payment_way_mapping', {
+        limit: 10
+      });
 
+      let order_status_mapping = await conn.select('ChenAnDB_order_status_mapping', {
+        limit: 10
+      });
+      
+      return Object.assign({order_status_mapping},{user_info: userRes},{payment_mapping},{list});
+    }, ctx); 
     return Object.assign({}, Code.SUCCESS, {
-      data: {
-        list: result
-      }
+      data: { order_list: listQueryData }
     });
   }
 

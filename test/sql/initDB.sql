@@ -121,6 +121,9 @@ CREATE TABLE ChenAnDB_order_goods
   sku INT NOT NULL,
   -- 商品信息
   goods_name TEXT NOT NULL,
+  video TEXT NULL,
+  -- 产品图片，数组 用分号分割
+  images MEDIUMTEXT NULL,
   -- 此订单中该商品数量
   goods_count INT NOT NULL,
   -- 此订单中该项产品下单总额

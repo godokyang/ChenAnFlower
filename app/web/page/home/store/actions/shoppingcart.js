@@ -11,6 +11,7 @@ const axiosShoppingcart = () => {
       let cartInfo = _lodash.get(res, 'data.data.pro_infos', {})
       dispatch(getShoppingCartItem(cartInfo))
     } catch (error) {
+      dispatch(getShoppingCartItem([]))
       console.warn(`AXIOSGOODS FROM GOODS ACTION ERROR: ${error}`);
     }
   }
