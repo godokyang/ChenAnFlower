@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Link, Switch, Redirect,withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as api from '@webApi'
+import _lodash from 'lodash'
 import Rootlayout from 'component/layout/default'
 import Home from '../router/Home'
 import Manage from '../router/Manage'
@@ -10,6 +12,54 @@ import OrderDetail from '../router/OrderDetail'
 import Login from '../router/Login'
 
 import './main.css'
+import { log } from 'util';
+
+const LoginRedirect = (props) => {
+  return <Redirect to='/web/login' />
+}
+
+class AuthRoute extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  state = {
+    loaded: false,
+    loginStatus: true
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  componentWillMount() {
+    this._isMounted = true;
+    api.getUserInfo().then(res => {
+      const status = _lodash.get(res, 'data.data.user_info.status', false)
+      if(this._isMounted){
+        this.setState({
+          loginStatus: status,
+          loaded: true
+        })
+      }
+    })
+  }
+
+  render() {
+    const {Component, ...rest} = this.props
+    const { loginStatus, loaded } = this.state
+    if (!loaded) return null
+    return <Route
+      {...rest}
+      render={props => {
+        return !loginStatus ? (<LoginRedirect />) : (<Component {...props} />)
+      }}
+    />
+
+  }
+}
+
+const PriviteRoute = withRouter(AuthRoute);
 
 class Main extends Component {
   constructor(props) {
@@ -29,9 +79,9 @@ class Main extends Component {
         <Route path="/web/home" component={Home} />
         <Route path="/web/client" component={Home} />
         <Route path="/web/manage" component={Manage} />
-        <Route path="/web/orderConfirm" component={OrderConfirm} />
-        <Route path="/web/orderList" component={OrderList} />
-        <Route path="/web/orderDetail" component={OrderDetail} />
+        <PriviteRoute path='/web/orderConfirm' Component={OrderConfirm} />
+        <PriviteRoute path="/web/orderList" component={OrderList} />
+        <PriviteRoute path="/web/orderDetail" component={OrderDetail} />
         <Route path="/web/login" component={Login} />
       </Switch>
     </Rootlayout>

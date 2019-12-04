@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Avatar, message, List, Tag, Descriptions } from 'antd'
+import { List, Descriptions } from 'antd'
 
 import _lodash from 'lodash'
 import * as api from '@webApi'

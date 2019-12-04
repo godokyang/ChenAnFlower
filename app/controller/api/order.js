@@ -27,6 +27,7 @@ class OrderCartController extends Controller {
   async getOrderGoods() {
     const { ctx } = this;
     const result = await ctx.service.order.getOrderGoods();
+    ctx.response = Object.assign(ctx.response, result)
     ctx.body = result;
   }
 }

@@ -11,7 +11,7 @@ export default class Header extends Component {
         position: 'fixed',
         top: 0,
         left: 0,
-        zIndex: 9999,
+        zIndex: 9990,
         width: '100%',
         backgroundColor: 'white',
         height: '65px'

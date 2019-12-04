@@ -56,7 +56,7 @@ class ShoppingCart extends Component {
           <div style={{height: '100px'}}></div>
         </div>
         {
-          tabHandle && tabHandle === 'ShoppingCart' ? 
+          tabHandle && tabHandle === 'ShoppingCart' && items && items.length > 0 ? 
             <div className="cart-bottom">
               <div>
               总价: <span>{sale_total}</span>

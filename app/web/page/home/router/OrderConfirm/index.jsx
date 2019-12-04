@@ -15,6 +15,10 @@ const { TextArea } = Input
 import { axiosConfirm, axiosSetOrgin, setOrgin, submitPartOrder } from '@webPage/home/store/actions/order'
 import { removeAllShoppingCart } from '@webPage/home/store/actions/shoppingcart'
 
+message.config({
+  top: '100px'
+})
+
 class OrderConfirm extends Component {
   constructor(props) {
     super(props)

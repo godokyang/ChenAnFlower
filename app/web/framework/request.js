@@ -6,52 +6,25 @@ axios.defaults.xsrfHeaderName = 'x-csrf-token';
 axios.defaults.xsrfCookieName = 'csrfToken';
 const SERVICE_DNS = 'http://localhost:7001'
 
-const AT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmeSI6MCwidXNlcl9uYW1lIjoidGVzdCIsIm5pY2tfbmFtZSI6bnVsbCwicGhvbmVfbnVtYmVyIjpudWxsLCJlbWFpbCI6bnVsbCwiaGVhZF9pbWFnZSI6bnVsbCwiY3JlYXRlX3RpbWUiOjAsInVuaW9uX2lkIjpudWxsLCJjdXN0b21lcl9pZCI6MTAwMDAwMDAwMDIsInN0YXR1cyI6MTAsImlhdCI6MTU3NTI5OTYxNywiZXhwIjoxNTc1NTU4ODE3fQ.mcqYwzTHP57_sX-FmTbHv93CeVsRjWigcbOHx8TDP0Y'
-
 export default {
   post(url, params ={}, state = {}) {
     const headers = {};
-    if (EASY_ENV_IS_NODE) {
-      headers['x-csrf-token'] = !!state.csrf;
-      headers.Cookie = `csrfToken=${state.csrf}`;
-    }
-    if (EASY_ENV_IS_DEV) {
-      headers.authorization = AT
-    }
+    headers['x-csrf-token'] = !!state.csrf || false;
     return axios.post(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
   },
   get(url, params ={}, state = {}) {
     params.headers = {}
-    if (EASY_ENV_IS_NODE ) {
-      params.headers['x-csrf-token'] = state.csrf || false;
-      params.headers.Cookie = `csrfToken=${state.csrf}`;
-    }
-    
-    if (EASY_ENV_IS_DEV) {
-      params.headers.authorization = AT
-    }
+    params.headers['x-csrf-token'] = state.csrf || false;
     return axios.get(`${state.origin || SERVICE_DNS}${url}`, params);
   },
   put(url, params ={}, state = {}) {
     const headers = {};
-    if (EASY_ENV_IS_NODE) {
-      headers['x-csrf-token'] = !!state.csrf;
-      headers.Cookie = `csrfToken=${state.csrf}`;
-    }
-    if (EASY_ENV_IS_DEV) {
-      headers.authorization = AT
-    }
+    headers['x-csrf-token'] = !!state.csrf || false;
     return axios.put(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
   },
   delete(url, params ={}, state = {}) {
     const headers = {};
-    if (EASY_ENV_IS_NODE) {
-      headers['x-csrf-token'] = !!state.csrf;
-      headers.Cookie = `csrfToken=${state.csrf}`;
-    }
-    if (EASY_ENV_IS_DEV) {
-      headers.authorization = AT
-    }
+    headers['x-csrf-token'] = !!state.csrf || false;
     return axios.delete(`${state.origin || SERVICE_DNS}${url}`, params, {headers});
   }
 };

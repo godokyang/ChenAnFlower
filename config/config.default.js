@@ -36,7 +36,13 @@ module.exports = appInfo => {
   };
 
   config.verifyAT = {
-    noAccessAPIs: [ '/v1/user', '/web', '/public' ]
+    noAccessAPIs: [ 
+      '/v1/user', 
+      '/web', 
+      '/public', 
+      '/v1/goods',
+      '/cart/item' 
+    ]
   };
 
   config.security = {

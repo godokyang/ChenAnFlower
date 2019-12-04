@@ -153,6 +153,7 @@ class GoodsList extends React.Component {
           <h1 style={{padding:0, margin:0}}>晨安&花</h1>
           <Select defaultValue="lucy" style={{ width: 120 }} onChange={(value) => {
             console.log(value);
+            webStorage.removeAll()
           }}>
             <Option value="jack">玫瑰</Option>
             <Option value="lucy">百合</Option>

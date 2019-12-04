@@ -1,16 +1,47 @@
 import React, {Component} from 'react'
-import {Form, Icon, Input, Button, Checkbox} from 'antd'
+import {Form, Icon, Input, Button, Spin, Tooltip, message} from 'antd'
+import _lodash from 'lodash'
 import Header from '@webComp/common/header'
+import * as api from '@webApi'
+import webStorage from '@webUtil/storage'
+import {storageKey} from '@webConfig'
 import './index.css'
 import '@web/commoncss/common.css'
+message.config({
+  top: '100px'
+})
 
 class NormalLoginForm extends Component {
+  state = {
+    loading: false
+  }
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
+      this.setState({
+        loading: true
+      })
       if (!err) {
         console.log('Received values of form: ', values);
+        try {
+          let result = await api.createAndRegistUser(values)
+          webStorage.set(storageKey.AT, _lodash.get(result, 'data.data.access_token', ''))
+          message.info('登录成功', 2)
+          setTimeout(() => {
+            this.props.history.goBack()
+          }, 2000);
+        } catch (error) {
+          message.info('用户名或密码错误', 2)
+        }
+        
+        this.setState({
+          loading: false
+        })
       }
+      this.setState({
+        loading: false
+      })
     });
   };
 
@@ -19,41 +50,44 @@ class NormalLoginForm extends Component {
     const {history} = this.props
     return (
       <div className="root-center">
+        {
+          this.state.loading ? <Spin style={{zIndex: 9999}} className='loading' /> : ''
+        }
         <Header subTitle='登录注册' history={history} />
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
-            {getFieldDecorator('username', {
-              rules: [{ required: true, message: 'Please input your username!' }]
+            {getFieldDecorator('user_name', {
+              rules: [{ required: true, message: '请输入用户名!' }]
             })(
               <Input
                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                placeholder="Username"
+                placeholder="用户名"
               />,
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Please input your Password!' }]
+              rules: [{ required: true, message: '请输入密码!' }]
             })(
               <Input
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 type="password"
-                placeholder="Password"
+                placeholder="密码"
               />,
             )}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true
-            })(<Checkbox>Remember me</Checkbox>)}
-            <a className="login-form-forgot" href="">
-            Forgot password
-            </a>
+            <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Tooltip title="请联系管理员">
+                <a>忘记密码</a>
+              </Tooltip>
+              <Tooltip title="输入密码即可自动注册">
+                <a>注册</a>
+              </Tooltip>
+            </div>
             <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+            登 录
             </Button>
-          Or <a href="">register now!</a>
           </Form.Item>
         </Form>
       </div>
