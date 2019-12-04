@@ -30,6 +30,13 @@ class OrderCartController extends Controller {
     ctx.response = Object.assign(ctx.response, result)
     ctx.body = result;
   }
+
+  async updateOrderInfo() {
+    const { ctx } = this;
+    const result = await ctx.service.order.updateOrderInfo();
+    ctx.response = Object.assign(ctx.response, result)
+    ctx.body = result;
+  }
 }
 
 module.exports = OrderCartController;

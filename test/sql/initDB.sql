@@ -87,6 +87,8 @@ CREATE TABLE ChenAnDB_owner_shop
 DROP TABLE IF EXISTS ChenAnDB_order_info;
 CREATE TABLE ChenAnDB_order_info
 (
+  order_number INT(11) NOT NULL AUTO_INCREMENT,
+  customer_name VARCHAR(50) NOT NULL,
   -- UUID 主键
   order_id VARCHAR(50) NOT NULL,
   -- 所属顾客
@@ -107,8 +109,8 @@ CREATE TABLE ChenAnDB_order_info
   payment_way INT NULL,
   payment_time VARCHAR(50) NULL,
   order_status INT NOT NULL,
-  PRIMARY KEY(`order_id`)
-)ENGINE = InnoDB;
+  PRIMARY KEY(`order_number`)
+)ENGINE = InnoDB AUTO_INCREMENT=1;
 
 -- 订单商品信息表
 DROP TABLE IF EXISTS ChenAnDB_order_goods;

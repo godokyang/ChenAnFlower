@@ -2,17 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
-import { List, Avatar, Button } from 'antd';
-import { InputItem, Switch, Stepper, Range } from 'antd-mobile';
-import InfiniteScroll from 'react-infinite-scroller';
+import { List, Button } from 'antd';
 import SingleItem from '@webComp/common/singleItem'
-const {Item} = List
 import './ShoppingCart.css'
 import '@web/commoncss/common.css'
 
 import {getShoppingCart, axiosShoppingcart, setShoppingCart, removeShoppingCart} from '@webPage/home/store/actions/shoppingcart'
-import webStorage from '@webUtil/storage'
-import {storageKey} from '@webConfig'
 
 class ShoppingCart extends Component {
   constructor(props) {

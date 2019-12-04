@@ -36,6 +36,8 @@ module.exports = app => {
   router.put('/v1/order', controller.api.order.confrimOrder);
   // 提交订单
   router.post('/v1/order', controller.api.order.submitOrder);
+  // 修改订单信息
+  router.put('/v1/order/:order_id', controller.api.order.updateOrderInfo);
   // 获取订单历史
   router.get('/v1/order/list', controller.api.order.getOrderList);
   // 获取订单产品

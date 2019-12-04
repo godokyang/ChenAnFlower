@@ -1,0 +1,17 @@
+.login-success {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+.my-list .spe .am-list-extra {
+  flex-basis: initial;
+}
+
+.icon-fill {
+  width: 2em;
+  height: 2em;
+}

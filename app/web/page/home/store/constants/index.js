@@ -1,5 +1,7 @@
 export const SET_CURRENT_TAB = 'SET_CURRENT_TAB' // 设置当前tab
 
+export const CHECK_USER = 'CHECK_USER' // 检查用户身份状态
+
 export const LOAD_GOODS = 'LOAD_GOODS' // 加载产品
 
 export const GET_SHOPPING_CART_ITEM = 'GET_SHOPPING_CART_ITEM' // 获取购物车产品具体信息

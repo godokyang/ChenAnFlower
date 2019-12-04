@@ -13,9 +13,7 @@ import ShoppingCart from './ShoppingCart';
 import Setup from './Setup';
 import {getShoppingCart, removeAllShoppingCart, axiosShoppingcart} from '@webPage/home/store/actions/shoppingcart'
 import {setTab} from '@webPage/home/store/actions/home'
-
-import webStorage from '@webUtil/storage'
-import {storageKey} from '@webConfig'
+import {withRouter} from 'react-router-dom';
 
 const BED = 'Bed'
 const SHOPPINGCART = 'ShoppingCart'
@@ -115,4 +113,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home))

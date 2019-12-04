@@ -29,22 +29,6 @@ instence.interceptors.response.use(
   error => {
     if (error.response.status === 401) {
       // 401的控制放到router main.jsx中
-      // try {
-      //   // // 同构渲染兼容
-      //   // if (!router) {
-      //   //   router = new BrowserRouter()
-      //   //   console.log('====================================');
-      //   //   console.log(router);
-      //   //   console.log('====================================');
-      //   // }
-      //   const router = createRouter();
-      //   console.log('====================================');
-      //   console.log(router);
-      //   console.log('====================================');
-      //   router.history.replace('/web/login')
-      // } catch (error) {
-      //   throw error
-      // }
     }
     return Promise.reject(error.response.status)
   }

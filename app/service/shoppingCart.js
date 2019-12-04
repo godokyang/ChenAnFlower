@@ -11,7 +11,6 @@ class ShoppingCartService extends Service {
      * ]
      */
     const { ctx } = this;
-    console.log(ctx.request);
     
     const arr = ctx.request.body;
     const result = await ctx.service.common.getGoodsBySkus(arr);

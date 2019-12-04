@@ -1,6 +1,7 @@
 const storageKey = {
   shoppingCart: 'shoppingCart',
-  AT: 'AccessToken'
+  AT: 'AccessToken',
+  userInfo: 'user_info'
 }
 
 export {storageKey}

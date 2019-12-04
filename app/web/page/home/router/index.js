@@ -2,6 +2,7 @@ import Home from './Home';
 import Manage from './Manage'
 import OrderConfirm from './OrderConfirm'
 import OrderList from './OrderList'
+import RootOrderList from './RootOrderList'
 import OrderDetail from './OrderDetail'
 import Login from '../router/Login'
 
@@ -38,6 +39,10 @@ export default function createRouter() {
     {
       path: '/web/orderList',
       component: OrderList
+    },
+    {
+      path: '/web/rootOrderList',
+      component: RootOrderList
     },
     {
       path: '/web/orderDetail',

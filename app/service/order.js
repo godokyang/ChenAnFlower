@@ -132,6 +132,7 @@ class OrderService extends Service {
         payment_total: total,
         payment_way: 900,
         order_status: 10100,
+        customer_name: userRes.user_name,
         create_time: new Date().getTime()
       }); // 第一步操作
       for (const item of obj.items) {
@@ -159,16 +160,18 @@ class OrderService extends Service {
   async getOrderList() {
     const { ctx } = this;
     const userRes = ctx.request.header.user_info;
-
+    const { last_id = 0, page_size = 10 } = ctx.request.query;
     if (!userRes.status) {
       return Object.assign({}, Code.ACCESSINVALID);
     }
     
     const listQueryData = await ctx.app.mysql.beginTransactionScope(async conn => {
-      let list = await conn.select('ChenAnDB_order_info', {
-        customer_id: userRes.customer_id
-      });
-
+      let list = userRes.identify === 100 ? 
+        await this.app.mysql.query(`SELECT * FROM ChenAnDB_order_info order by order_number desc ${last_id ? `WHERE order_number < ${last_id}` : ''} LIMIT ${page_size};`):
+        await this.app.mysql.query(`SELECT * FROM ChenAnDB_order_info order by order_number desc WHERE customer_id = ${userRes.customer_id} ${last_id ? `AND order_number < ${last_id}` : ''};`) 
+      
+      
+      
       let payment_mapping = await conn.select('ChenAnDB_payment_way_mapping', {
         limit: 10
       });
@@ -203,6 +206,55 @@ class OrderService extends Service {
         list: result
       }
     });
+  }
+
+  async updateOrderInfo() {
+    const { ctx } = this;
+    const { order_id } = ctx.params;
+    const userRes = ctx.request.header.user_info;
+    const { order_status } = ctx.request.body;
+    if (!order_status) {
+      return Object.assign({}, Code.ERROR, {
+        message: 'Address Paramters Has Error',
+        error_code: 600
+      });
+    }
+
+    if (!userRes.status || userRes.identify !== 100) {
+      return Object.assign({}, Code.ACCESSINVALID);
+    }
+
+    if (!order_id) {
+      return Object.assign({}, Code.ERROR, {
+        message: 'No Order_id Selected',
+        error_code: 600
+      });
+    }
+    const insertFlag = await this.app.mysql.select('ChenAnDB_order_status_mapping',{
+      order_status
+    })
+
+    if (insertFlag.length === 0) {
+      return Object.assign({}, Code.ERROR, {
+        message: 'No Order Status Mapping',
+        error_code: 600
+      });
+    }
+
+    const result = await this.app.mysql.update('ChenAnDB_order_info', {
+      order_status
+    }, {
+      where: { order_id }
+    });
+
+    if (result.affectedRows === 1) {
+      return Object.assign({}, Code.SUCCESS);
+    }
+    return Object.assign({}, Code.ERROR, {
+      message: 'Insert Failed',
+      error_code: 603
+    });
+
   }
 }
 

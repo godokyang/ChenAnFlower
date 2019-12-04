@@ -7,7 +7,7 @@ class GoodsService extends Service {
   async getGoods() {
     const { ctx } = this;
     const { last_id = 0, page_size = 10 } = ctx.request.query;
-    const goodsQueryData = await this.app.mysql.query(`SELECT * FROM ChenAnDB_goods WHERE sku > ${last_id} LIMIT ${page_size};`);
+    const goodsQueryData = await this.app.mysql.query(`SELECT * FROM ChenAnDB_goods ${last_id ? `WHERE sku < ${last_id}` : ''} order by sku desc LIMIT ${page_size};`);
 
     return Object.assign({}, Code.SUCCESS, {
       data: { goods: goodsQueryData }

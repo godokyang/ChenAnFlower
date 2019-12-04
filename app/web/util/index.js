@@ -57,7 +57,6 @@ const throttle = function (func, wait, options) {
 
     if (runner) {
       previous = now
-      console.log(previous)
       func.apply(context, args)
     } else {
       queue.push(now)

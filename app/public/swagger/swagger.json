@@ -131,6 +131,52 @@
         }
       }
     },
+    "/order/{id}": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "修改订单",
+        "description": "修改订单",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "address_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_status": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
     "/address/{id}": {
       "get": {
         "tags": [

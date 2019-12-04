@@ -43,7 +43,7 @@ export class OrderDetail extends Component {
           <Descriptions bordered >
             <Descriptions.Item label="姓名">{_lodash.get(address, 'receiver', '')}</Descriptions.Item>
             <Descriptions.Item label="电话">{_lodash.get(address, 'contact', '')}</Descriptions.Item>
-            <Descriptions.Item label="地区">{`${_lodash.get(address, 'orgin.province.ADD_NAME', '请添加')} ${_lodash.get(address, 'orgin.county.ADD_NAME', '')} ${_lodash.get(address, 'orgin.city.ADD_NAME', '')}`}</Descriptions.Item>
+            <Descriptions.Item label="地区">{`${_lodash.get(address, 'orgin.province.ADD_NAME', '')} ${_lodash.get(address, 'orgin.county.ADD_NAME', '')} ${_lodash.get(address, 'orgin.city.ADD_NAME', '')}`}</Descriptions.Item>
             <Descriptions.Item label="具体地址">{_lodash.get(address, 'detail', '')}</Descriptions.Item>
             <Descriptions.Item label="金额">{theme.payment_total}</Descriptions.Item>
           </Descriptions>

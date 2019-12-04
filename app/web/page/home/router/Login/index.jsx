@@ -5,6 +5,9 @@ import Header from '@webComp/common/header'
 import * as api from '@webApi'
 import webStorage from '@webUtil/storage'
 import {storageKey} from '@webConfig'
+import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux'
+import {getUserInfo} from '@webPage/home/store/actions/user'
 import './index.css'
 import '@web/commoncss/common.css'
 message.config({
@@ -27,6 +30,7 @@ class NormalLoginForm extends Component {
         try {
           let result = await api.createAndRegistUser(values)
           webStorage.set(storageKey.AT, _lodash.get(result, 'data.data.access_token', ''))
+          await this.props.checkUserInfo()
           message.info('登录成功', 2)
           setTimeout(() => {
             this.props.history.goBack()
@@ -97,4 +101,15 @@ class NormalLoginForm extends Component {
 
 const Login = Form.create({ name: 'normal_login' })(NormalLoginForm);
 
-export default Login
+const mapStateToProps = (state) => {
+  return Object.assign({}, state)
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkUserInfo: bindActionCreators(getUserInfo, dispatch)
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+// export default Login
