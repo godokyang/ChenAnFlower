@@ -35,11 +35,22 @@ class CommonService extends Service {
         },
         columns: [ 'goods_name', 'pro_desc', 'images', 'sale_price', 'agent_price', 'sku', 'owner_price', 'top_level', 'show_level', 'owner_shop_id' ]
       });
+      
       if (result.length === 0) {
         failedSkus.push(iterator.sku);
         continue;
       }
       const pushData = result[0];
+      const Owner = await this.app.mysql.select('ChenAnDB_owner_shop', {
+        where: {
+          shop_id: pushData.owner_shop_id
+        }
+      })
+      if (Owner.length === 0) {
+        failedSkus.push(iterator.sku);
+        continue;
+      }
+      pushData.owner = Owner[0]
       pushData.quantity = iterator.quantity;
       responseArr.owner_total += pushData.owner_price * pushData.quantity;
       responseArr.sale_total += pushData.sale_price * pushData.quantity;

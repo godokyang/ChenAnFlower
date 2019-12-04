@@ -38,7 +38,7 @@ class UserService extends Service {
     const { ctx } = this;
     const { authorization } = ctx.request.header;
     const info = await this.ctx.app.verifyToken(authorization);
-
+    
     return Object.assign({}, Code.SUCCESS, {
       data: { user_info: info }
     });

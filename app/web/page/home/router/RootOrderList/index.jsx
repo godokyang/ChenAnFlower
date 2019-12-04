@@ -21,9 +21,7 @@ class ListItem extends Component {
 
   render() {
     const {data, order_status_mapping, payment_mapping, user_info} = this.props
-    console.log('====================================');
-    console.log(this.state);
-    console.log('====================================');
+    data.showOwner = true
     return <div style={{width: '100%'}}>
       <Card full>
         <Card.Header

@@ -201,6 +201,19 @@ class OrderService extends Service {
       where: { order_id }
     });
 
+    if (result.length > 0) {
+      for (const iterator of result) {
+        const Owner = await this.app.mysql.select('ChenAnDB_owner_shop', {
+          where: {
+            shop_id: iterator.shop_id
+          }
+        })
+        if (Owner.length > 0) {
+          iterator.owner = Owner[0]
+        }
+      }
+    }
+
     return Object.assign({}, Code.SUCCESS, {
       data: {
         list: result

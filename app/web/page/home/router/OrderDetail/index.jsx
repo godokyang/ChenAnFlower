@@ -13,7 +13,8 @@ export class OrderDetail extends Component {
   state = {
     theme: {},
     orderDetail: [],
-    address: {}
+    address: {},
+    showOwner: false
   }
 
   componentDidMount() {
@@ -21,7 +22,12 @@ export class OrderDetail extends Component {
   }
 
   async getOrderDetail() {
-    const {order_id, address_id} = this.props.location.query
+    const {order_id, address_id, showOwner} = this.props.location.query
+    if (showOwner) {
+      this.setState({
+        showOwner
+      })
+    }
     const orderRes = await api.getOrderListGoods(order_id)
     const addressRes = await api.getAddressById(address_id)
     let orderDetail = _lodash.get(orderRes, 'data.data.list', {})
@@ -50,7 +56,7 @@ export class OrderDetail extends Component {
           <List
             dataSource={orderDetail}
             renderItem={item => (
-              <SingleItem item={item} noControl={true} />
+              <SingleItem item={item} noControl={true} showOwner={this.state.showOwner} />
             )}
           >
           </List>

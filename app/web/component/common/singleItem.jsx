@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List, Popconfirm, Icon } from 'antd';
+import { List, Popconfirm, Icon, Tooltip } from 'antd';
 import { Stepper } from 'antd-mobile';
 import { throttle } from '@webUtil'
 
@@ -16,7 +16,10 @@ export default class SingleItem extends Component {
   }
 
   render() {
-    const { item, setCart, removeCart, getCartItem, noControl } = this.props
+    const { item, setCart, removeCart, getCartItem, noControl, showOwner } = this.props
+    console.log('====================================');
+    console.log(item);
+    console.log('====================================');
     return (
       <List.Item key={item.sku}>
         <div style={{
@@ -46,8 +49,19 @@ export default class SingleItem extends Component {
                   <Icon style={{ fontSize: '20px' }} type="delete" />
                 </Popconfirm>
             }
-
-            <div className={noControl ? 'over-five-line' : 'over-two-line'}>{item.goods_name}</div>
+            {
+              showOwner ? 
+                <div className="alert" style={{backgroundColor: '#f8ffef'}}>{item.owner.source}: {item.owner.shop_name}</div>
+                : ''
+            }
+            <Tooltip title={item.goods_name}>
+              <div className={noControl ? 'over-five-line' : 'over-two-line'}>{item.goods_name}</div>
+            </Tooltip>
+            
+            {
+              noControl ? <div className="alert"> <div>单价:{item.goods_price}</div><div>数量:{item.goods_count}</div></div>
+                : ''
+            }
             {
               noControl ? '' :
                 <Stepper
