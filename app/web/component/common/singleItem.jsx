@@ -17,9 +17,6 @@ export default class SingleItem extends Component {
 
   render() {
     const { item, setCart, removeCart, getCartItem, noControl, showOwner } = this.props
-    console.log('====================================');
-    console.log(item);
-    console.log('====================================');
     return (
       <List.Item key={item.sku}>
         <div style={{

@@ -12,7 +12,6 @@ import './goodsList.css'
 
 import {showBigPics, axiosGoods} from '@webPage/home/store/actions/goods'
 import {addShoppingCart} from '@webPage/home/store/actions/shoppingcart'
-import {storageKey} from '@webConfig'
 
 const NUM_ROWS = 5;
 

@@ -60,7 +60,7 @@ const list = [
     }
   },
   {
-    tabName: '重置',
+    tabName: '退出登录',
     desc: '清除账号数据',
     iconType: 'delete',
     func: (props) => {

@@ -164,11 +164,10 @@ class OrderService extends Service {
     if (!userRes.status) {
       return Object.assign({}, Code.ACCESSINVALID);
     }
-    
     const listQueryData = await ctx.app.mysql.beginTransactionScope(async conn => {
       let list = userRes.identify === 100 ? 
-        await this.app.mysql.query(`SELECT * FROM ChenAnDB_order_info order by order_number desc ${last_id ? `WHERE order_number < ${last_id}` : ''} LIMIT ${page_size};`):
-        await this.app.mysql.query(`SELECT * FROM ChenAnDB_order_info order by order_number desc WHERE customer_id = ${userRes.customer_id} ${last_id ? `AND order_number < ${last_id}` : ''};`) 
+        await this.app.mysql.query(`SELECT * FROM ChenAnDB_order_info ${last_id ? `WHERE order_number < ${last_id}` : ''} order by order_number desc LIMIT ${page_size};`):
+        await this.app.mysql.query(`SELECT * FROM ChenAnDB_order_info WHERE customer_id = ${userRes.customer_id}${last_id ? ` AND order_number < ${last_id}` : ''} order by order_number desc;`) 
       
       
       

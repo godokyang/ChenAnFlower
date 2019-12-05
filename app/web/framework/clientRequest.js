@@ -40,7 +40,7 @@ export default {
     return instence.post(`${state.origin || SERVICE_DNS}${url}`, params);
   },
   get(url, params ={}, state = {}) {
-    return instence.get(`${state.origin || SERVICE_DNS}${url}`, params);
+    return instence.get(`${state.origin || SERVICE_DNS}${url}`, {params});
   },
   put(url, params ={}, state = {}) {
     return instence.put(`${state.origin || SERVICE_DNS}${url}`, params)

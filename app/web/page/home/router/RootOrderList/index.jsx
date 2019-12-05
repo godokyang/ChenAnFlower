@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
-import { Avatar, message, List, Tag, Descriptions, Select, Icon } from 'antd'
+import { Avatar, message, List, Tag, Descriptions, Select, Icon, Button } from 'antd'
 import { WingBlank, WhiteSpace, Card } from 'antd-mobile'
 
 import InfiniteScroll from 'react-infinite-scroller';
@@ -87,9 +87,9 @@ export class RootOrderList extends Component {
     })
   }
 
-  async getOrderList() {
+  async getOrderList(params = {}) {
     try {
-      let res = await api.getOrderList()
+      let res = await api.getOrderList(params)
       let orderListData = _lodash.get(res, 'data.data.order_list', [])
       return orderListData
     } catch (error) {
@@ -102,46 +102,64 @@ export class RootOrderList extends Component {
     this.setState({
       loading: true
     });
-    if (list.length > 14) {
-      message.warning('Infinite List loaded all');
-      this.setState({
-        hasMore: false,
-        loading: false
-      });
-      return;
-    }
-    this.getOrderList(res => {
+    // if (list.length > 14) {
+    //   message.warning('Infinite List loaded all');
+    //   this.setState({
+    //     hasMore: false,
+    //     loading: false
+    //   });
+    //   return;
+    // }
+    this.getOrderList({last_id: list[list.length-1].order_number}).then(res => {
       list = list.concat(res.list);
-      this.setState(this.setState(Object.assign({}, list, {loading: false})));
+      this.setState({list: list, loading: false});
+      if (res.list.length < 10) {
+        this.setState({
+          hasMore: false,
+          loading: false
+        });
+        message.warning('没有更多了');
+      }
     });
   };
 
   render() {
     const { history } = this.props
     const { list, order_status_mapping, payment_mapping, user_info } = this.state
+    const loadMore =
+      !this.state.loading && this.state.hasMore ? (
+        <div
+          style={{
+            textAlign: 'center',
+            padding: '12px'
+          }}
+        >
+          <Button onClick={this.handleInfiniteOnLoad}>加载更多</Button>
+        </div>
+      ) : null;
     return (
       <div>
         <Header subTitle="订单列表" history={history} />
-        <InfiniteScroll
+        {/* <InfiniteScroll
           style={{marginTop: '65px'}}
-          initialLoad={false}
           pageStart={0}
-          loadMore={this.handleInfiniteOnLoad}
-          hasMore={!this.state.loading && this.state.hasMore}
           useWindow={false}
-        >
-          <List
-            // header={<div>Header</div>}
-            // footer={<div>Footer</div>}
-            bordered
-            dataSource={list}
-            renderItem={item => (
-              <List.Item>
-                <ListItem user_info={user_info} payment_mapping={payment_mapping} order_status_mapping={order_status_mapping} data={item} />
-              </List.Item>
-            )}
-          />
-        </InfiniteScroll>
+        > */}
+        <List
+          // header={<div>Header</div>}
+          // footer={<div>Footer</div>}
+          style={{marginTop: '65px'}}
+          loadMore={loadMore}
+          hasMore={!this.state.loading && this.state.hasMore}
+          bordered
+          dataSource={list}
+          renderItem={item => (
+            <List.Item>
+              <ListItem user_info={user_info} payment_mapping={payment_mapping} order_status_mapping={order_status_mapping} data={item} />
+            </List.Item>
+          )}
+        />
+        {/* </InfiniteScroll> */}
       </div>
     )
   }
