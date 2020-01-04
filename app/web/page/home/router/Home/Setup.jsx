@@ -31,7 +31,7 @@ const list = [
     desc: '安安要编辑的话点这里哦',
     iconType: 'edit',
     func: (props) => {
-      message.info('编辑产品')
+      props.history.push('/web/editGoods')
     },
     identityCheck: (identity) => {
       return (identity === 100)

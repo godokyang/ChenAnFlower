@@ -10,8 +10,10 @@ import OrderList from '../router/OrderList'
 import RootOrderList from '../router/RootOrderList'
 import OrderDetail from '../router/OrderDetail'
 import Login from '../router/Login'
+import EditGoods from '../router/EditGoods';
 
 import './main.css'
+
 
 const LoginRedirect = (props) => {
   return <Redirect to='/web/login' />
@@ -83,6 +85,7 @@ class Main extends Component {
         <PriviteRoute path="/web/orderList" component={OrderList} />
         <PriviteRoute path="/web/orderDetail" component={OrderDetail} />
         <PriviteRoute path="/web/rootOrderList" component={RootOrderList} />
+        <PriviteRoute path="/web/editGoods" component={EditGoods} />
         <Route path="/web/login" component={Login} />
       </Switch>
     </Rootlayout>

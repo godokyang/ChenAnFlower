@@ -9,9 +9,7 @@ module.exports = options => {
     
     const res = await ctx.app.verifyToken(ctx.request.header.authorization);
     if (res.status || atCheckFlag) {
-      if (!atCheckFlag) {
-        ctx.request.header.user_info = res;
-      }
+      ctx.request.header.user_info = res;
       await next();
     } else {
       ctx.response.status = Code.ACCESSINVALID.status;

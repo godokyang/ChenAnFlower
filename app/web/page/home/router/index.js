@@ -5,6 +5,7 @@ import OrderList from './OrderList'
 import RootOrderList from './RootOrderList'
 import OrderDetail from './OrderDetail'
 import Login from '../router/Login'
+import EditGoods from './EditGoods';
 
 const NotFound = () => {
   return (
@@ -47,6 +48,10 @@ export default function createRouter() {
     {
       path: '/web/orderDetail',
       component: OrderDetail
+    },
+    {
+      path: '/web/editGoods',
+      component: EditGoods
     },
     {
       path: '/web/login',

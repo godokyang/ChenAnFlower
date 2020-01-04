@@ -7,8 +7,12 @@ class GoodsService extends Service {
   async getGoods() {
     const { ctx } = this;
     const { last_id = 0, page_size = 10 } = ctx.request.query;
-    const goodsQueryData = await this.app.mysql.query(`SELECT * FROM ChenAnDB_goods ${last_id ? `WHERE sku < ${last_id}` : ''} order by sku desc LIMIT ${page_size};`);
-
+    const userRes = ctx.request.header.user_info;
+    let query = `SELECT * FROM ChenAnDB_goods ${last_id ? `WHERE sku < ${last_id}` : ''} order by sku desc LIMIT ${page_size};`
+    if (!userRes || userRes.identify === 0) {
+      query = `SELECT * FROM ChenAnDB_goods WHERE show_level = 2 ${last_id ? `AND sku < ${last_id}` : ''} order by sku desc LIMIT ${page_size};`
+    }
+    const goodsQueryData = await this.app.mysql.query(query);
     return Object.assign({}, Code.SUCCESS, {
       data: { goods: goodsQueryData }
     });
